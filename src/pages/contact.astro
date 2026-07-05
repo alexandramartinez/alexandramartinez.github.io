@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Socials from '../components/Socials.astro';
+import Button from '../components/Button.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<Base title="Contact" description="Get in touch with Alex Martinez for content, collaboration, speaking, or bookkeeping.">
+  <PageHeader eyebrow="Contact">
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">Let's <span class="text-gradient">talk.</span></h1>
+    <p class="mt-4 max-w-xl text-lg" style="color: var(--fg-muted)">
+      Content collaborations, speaking, developer advocacy, or a bookkeeping inquiry. Pick
+      whatever's easiest.
+    </p>
+  </PageHeader>
+
+  <section class="mx-auto max-w-6xl px-5 py-12 sm:py-16">
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <div class="gradient-frame rounded-[var(--radius-card)] p-6">
+        <h2 class="text-lg font-semibold">For developers and content</h2>
+        <p class="mt-2 text-sm" style="color: var(--fg-muted)">
+          Find me on social, or reach out on LinkedIn for collaborations and speaking.
+        </p>
+        <div class="mt-4">
+          <Socials />
+        </div>
+      </div>
+
+      <div class="gradient-frame rounded-[var(--radius-card)] p-6">
+        <h2 class="text-lg font-semibold">For bookkeeping clients</h2>
+        <p class="mt-2 text-sm" style="color: var(--fg-muted)">
+          Looking for a bookkeeper? See services and how to hire me.
+        </p>
+        <div class="mt-4">
+          <Button href="/bookkeeping" variant="secondary">Bookkeeping services</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

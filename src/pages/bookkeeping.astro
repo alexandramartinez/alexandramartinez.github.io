@@ -1,0 +1,160 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { bookkeeping } from '../config';
+
+const services = [
+  {
+    title: 'Monthly bookkeeping',
+    desc: 'Categorized transactions, reconciled accounts, and clean books every month.',
+  },
+  {
+    title: 'Catch-up and cleanup',
+    desc: 'Behind on the books? I get prior months sorted and reconciled so you are current.',
+  },
+  {
+    title: 'Reporting',
+    desc: 'Clear profit and loss, balance sheet, and cash-flow snapshots you can actually read.',
+  },
+  {
+    title: 'QuickBooks setup',
+    desc: 'Set up or tidy your QuickBooks Online, chart of accounts, and workflows.',
+  },
+];
+
+const steps = [
+  { n: '01', t: 'Quick intro call', d: 'We talk about your business and what you need.' },
+  { n: '02', t: 'Books review', d: 'I look at your current setup and flag anything urgent.' },
+  { n: '03', t: 'Clean and maintain', d: 'I get you current, then keep things clean monthly.' },
+];
+
+const hasFiverr = Boolean(bookkeeping.fiverr);
+const hasProAdvisor = Boolean(bookkeeping.proAdvisor);
+const hasEmail = Boolean(bookkeeping.contactEmail);
+---
+
+<Base
+  title="Bookkeeping"
+  zone="books"
+  description="Bookkeeping by Alex Amkins. QuickBooks Online certified, taking on new clients."
+>
+  <!-- HERO with name bridge -->
+  <PageHeader eyebrow="Bookkeeping">
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+      Bookkeeping by <span class="text-gradient">Alex Amkins</span>
+    </h1>
+    <p class="mt-2 text-base" style="color: var(--fg-subtle)">
+      Also known as Alex Martinez. You are in the right place.
+    </p>
+    <p class="mt-5 max-w-2xl text-lg" style="color: var(--fg-muted)">
+      Clean, accurate books so you can stop worrying about them. QuickBooks Online certified
+      and currently taking on new clients.
+    </p>
+
+    <!-- Trust signals -->
+    <div class="mt-7 flex flex-wrap items-center gap-3">
+      {
+        bookkeeping.certs.map((c) => (
+          <span
+            class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium"
+            style="background: var(--bg-card); border-color: color-mix(in oklab, var(--color-accent) 35%, var(--border))"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2.5" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+            {c}
+          </span>
+        ))
+      }
+      {
+        bookkeeping.inProgress.map((c) => (
+          <span
+            class="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium"
+            style="color: var(--fg-muted); border-color: var(--border)"
+          >
+            {c} certification in progress
+          </span>
+        ))
+      }
+    </div>
+
+    <!-- CTAs -->
+    <div class="mt-8 flex flex-wrap items-center gap-3">
+      {hasEmail ? (
+        <Button href={`mailto:${bookkeeping.contactEmail}`}>Get in touch</Button>
+      ) : (
+        <Button href="/contact">Get in touch</Button>
+      )}
+      {hasFiverr && (
+        <Button href={bookkeeping.fiverr} variant="secondary" external>
+          Hire me on Fiverr
+        </Button>
+      )}
+      {hasProAdvisor && (
+        <Button href={bookkeeping.proAdvisor} variant="secondary" external>
+          QuickBooks ProAdvisor profile
+        </Button>
+      )}
+    </div>
+  </PageHeader>
+
+  <!-- SERVICES -->
+  <section class="mx-auto max-w-6xl px-5 py-12 sm:py-16">
+    <h2 class="mb-6 text-2xl font-bold tracking-tight">What I do</h2>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {
+        services.map((s) => (
+          <div class="gradient-frame rounded-[var(--radius-card)] p-6">
+            <h3 class="text-lg font-semibold">{s.title}</h3>
+            <p class="mt-2 text-sm" style="color: var(--fg-muted)">
+              {s.desc}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="mx-auto max-w-6xl px-5 py-12 sm:py-16">
+    <h2 class="mb-6 text-2xl font-bold tracking-tight">How it works</h2>
+    <ol class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      {
+        steps.map((s) => (
+          <li class="gradient-frame rounded-[var(--radius-card)] p-6">
+            <span class="font-mono text-2xl font-bold" style="color: var(--color-accent)">
+              {s.n}
+            </span>
+            <h3 class="mt-3 text-base font-semibold">{s.t}</h3>
+            <p class="mt-1 text-sm" style="color: var(--fg-muted)">
+              {s.d}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="mx-auto max-w-6xl px-5 py-12 sm:py-16">
+    <div class="gradient-frame rounded-[var(--radius-card)] p-8 text-center">
+      <h2 class="text-2xl font-bold tracking-tight">Ready for clean books?</h2>
+      <p class="mx-auto mt-2 max-w-md text-sm" style="color: var(--fg-muted)">
+        Let's have a quick chat about your business and where I can help.
+      </p>
+      <div class="mt-6 flex flex-wrap justify-center gap-3">
+        {hasEmail ? (
+          <Button href={`mailto:${bookkeeping.contactEmail}`}>Get in touch</Button>
+        ) : (
+          <Button href="/contact">Get in touch</Button>
+        )}
+        {hasFiverr && (
+          <Button href={bookkeeping.fiverr} variant="secondary" external>
+            Hire me on Fiverr
+          </Button>
+        )}
+      </div>
+    </div>
+  </section>
+</Base>

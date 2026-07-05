@@ -1,0 +1,37 @@
+---
+/** Small type/source label chip.
+ *
+ * Three looks:
+ *  - default: neutral outline (topic tags like "MuleSoft", "AI").
+ *  - accent:  brand-violet outline + text.
+ *  - type:    filled tint pill, hue keyed to the ContentType via the
+ *             `.type-badge[data-type=...]` palette in global.css. Color is a
+ *             redundant cue, the label text always shows too (WCAG 1.4.1).
+ */
+interface Props {
+  label: string;
+  accent?: boolean;
+  /** Content type. When set, renders the filled tint pill for that type. */
+  type?: string;
+}
+const { label, accent = false, type } = Astro.props;
+
+const base = 'inline-flex items-center rounded-full border px-2.5 py-0.5 font-mono text-xs tracking-wide';
+---
+
+{
+  type ? (
+    <span class={`${base} type-badge`} data-type={type}>
+      {label}
+    </span>
+  ) : (
+    <span
+      class={base}
+      style={accent
+        ? 'color: var(--color-accent); border-color: color-mix(in oklab, var(--color-accent) 40%, transparent)'
+        : 'color: var(--fg-muted)'}
+    >
+      {label}
+    </span>
+  )
+}

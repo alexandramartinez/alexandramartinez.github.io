@@ -1,0 +1,22 @@
+---
+/*
+  Standard page header: full-bleed hero glow + the site's canonical max-w-6xl
+  container (same left gutter as the nav and footer), plus the gradient-bar
+  eyebrow. Every inner page uses this so widths and the glow never drift.
+  The headline and any intro copy go in the default slot.
+*/
+interface Props {
+  eyebrow: string;
+}
+const { eyebrow } = Astro.props;
+---
+
+<section class="hero-glow">
+  <div class="mx-auto max-w-6xl px-5 pb-10 pt-16">
+    <p class="mb-2 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]" style="color: var(--color-accent)">
+      <span class="gradient-bar" aria-hidden="true"></span>
+      {eyebrow}
+    </p>
+    <slot />
+  </div>
+</section>

@@ -1,0 +1,483 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ResumeEntry from '../components/ResumeEntry.astro';
+import {
+  experience,
+  skills,
+  education,
+  certifications,
+  volunteering,
+  publications,
+  speaking,
+  languages,
+  summaries,
+} from '../data/resume';
+
+// Tabs: full | compact | devrel | swe | books.
+const tabs = [
+  { id: 'full', label: 'Full resume' },
+  { id: 'compact', label: 'Compact' },
+  { id: 'devrel', label: 'DevRel / Content' },
+  { id: 'swe', label: 'Software engineering' },
+  { id: 'books', label: 'Bookkeeping' },
+];
+
+// Right-hand "on this page" jump list. Each id matches a .resume-section below;
+// the tab script hides a link when its section is filtered out on an audience
+// tab, and highlights the link for the section currently in view.
+const sectionNav = [
+  { id: 'summary', label: 'Summary' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'speaking', label: 'Speaking' },
+  { id: 'publications', label: 'Publications' },
+  { id: 'certifications', label: 'Licenses and certifications' },
+  { id: 'education', label: 'Education' },
+  { id: 'volunteering', label: 'Volunteering' },
+  { id: 'languages', label: 'Languages' },
+];
+---
+
+<Base
+  title="Resume"
+  description="The full resume of Alex Martinez: developer advocacy, software engineering, and bookkeeping. View it full, compact, or tailored to an audience."
+>
+  <PageHeader eyebrow="Resume">
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+      My <span class="text-gradient">resume</span>
+    </h1>
+    <p class="mt-3 max-w-2xl text-lg" style="color: var(--fg-muted)">
+      A decade across software engineering, developer relations, and bookkeeping.
+      Pick the view that fits: the full history, a compact scan, or one tailored
+      to what you came for.
+    </p>
+
+    <!-- Tab bar -->
+    <div class="mt-8 flex flex-wrap gap-2" role="group" aria-label="Resume view">
+      {
+        tabs.map((tab, i) => (
+          <button
+            type="button"
+            class="resume-tab rounded-full border px-4 py-1.5 text-sm font-medium transition-colors"
+            data-tab={tab.id}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+            style={
+              i === 0
+                ? 'border-color: var(--color-accent); color: var(--color-accent)'
+                : 'border-color: var(--border); color: var(--fg-muted)'
+            }
+          >
+            {tab.label}
+          </button>
+        ))
+      }
+    </div>
+  </PageHeader>
+
+  <section class="mx-auto flex max-w-6xl gap-12 px-5 py-12 sm:py-16">
+    <div id="resume-body" class="min-w-0 max-w-3xl flex-1">
+      <!-- Summary. No data-tracks children, so the auto-hide loop always keeps
+           it visible. The tab script swaps #summary-text per tab (data-tracks
+           cannot do per-tab text). First section, so no mt-14 on the heading. -->
+      <div id="summary" class="resume-section scroll-mt-24">
+        <h2 class="mb-1 text-xl font-bold">
+          Summary<span data-name-suffix></span>
+        </h2>
+        <hr class="gradient-divider mb-8 mt-3" />
+        <p id="summary-text" class="max-w-2xl text-base leading-relaxed" style="color: var(--fg-muted)"></p>
+      </div>
+
+      <!-- Experience. Sections carry .resume-section so the script can hide a
+           whole block (heading + divider) when an audience tab leaves it empty.
+           Each filterable child carries data-tracks; an item shows on an
+           audience tab only when tagged with that track, and untagged items
+           appear on Full and Compact only. -->
+      <div id="experience" class="resume-section scroll-mt-24">
+        <h2 class="mb-1 mt-14 text-xl font-bold">Experience</h2>
+        <hr class="gradient-divider mb-8 mt-3" />
+        <div class="space-y-10">
+          {experience.map((role) => <ResumeEntry role={role} />)}
+        </div>
+      </div>
+
+      <!-- Skills. Each pill carries data-tracks; the tab script hides a whole
+           category (data-skill-category) when filtering leaves it with no
+           visible pills, and hideInCompact pills drop on the Compact tab. -->
+      <div id="skills" class="resume-section scroll-mt-24">
+        <h2 class="mb-1 mt-14 text-xl font-bold">Skills</h2>
+        <hr class="gradient-divider mb-8 mt-3" />
+        <div class="space-y-6">
+          {
+            skills.map((cat) => (
+              <div data-skill-category>
+                <p class="mb-2 text-sm font-semibold" style="color: var(--color-accent)">
+                  {cat.category}
+                </p>
+                <ul class="flex flex-wrap gap-1.5">
+                  {cat.skills.map((skill) => (
+                    <li
+                      data-tracks={(skill.tracks ?? []).join(' ')}
+                      data-compact-hide={skill.hideInCompact ? '' : undefined}
+                      class="rounded-full border px-2.5 py-0.5 font-mono text-xs"
+                      style="border-color: var(--border); color: var(--fg-muted)"
+                    >
+                      {skill.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Speaking. Newest-first; in Compact only the 5 most recent are kept
+           (data-compact-hide marks the rest). The location carries the breadth
+           (North America and online) at a glance. -->
+      <div id="speaking" class="resume-section scroll-mt-24">
+        <h2 class="mb-1 mt-14 text-xl font-bold">Speaking</h2>
+        <hr class="gradient-divider mb-8 mt-3" />
+        <ul class="space-y-4">
+          {
+            speaking.map((talk, i) => (
+              <li
+                data-tracks={(talk.tracks ?? []).join(' ')}
+                data-compact-hide={i >= 5 ? '' : undefined}
+              >
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <p class="font-semibold">
+                    {talk.event}
+                    <span class="font-normal" style="color: var(--fg-muted)">
+                      {' '}· {talk.location}
+                    </span>
+                  </p>
+                  <span class="font-mono text-xs whitespace-nowrap" style="color: var(--fg-subtle)">
+                    {talk.year}
+                  </span>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Publications (kept in Compact: single entry) -->
+      <div id="publications" class="resume-section scroll-mt-24">
+        <h2 class="mb-1 mt-14 text-xl font-bold">Publications</h2>
+        <hr class="gradient-divider mb-8 mt-3" />
+        <ul class="space-y-5">
+          {
+            publications.map((pub) => (
+              <li data-tracks={(pub.tracks ?? []).join(' ')}>
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <p class="font-semibold">{pub.title}</p>
+                  <span class="font-mono text-xs whitespace-nowrap" style="color: var(--fg-subtle)">
+                    {pub.date}
+                  </span>
+                </div>
+                <p class="text-sm" style="color: var(--fg-muted)">{pub.publisher}</p>
+                <p class="mt-1 text-sm leading-relaxed" style="color: var(--fg-subtle)">
+                  {pub.blurb}
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Certifications. In Compact, only the 5 most recent are kept
+           (data-compact-hide marks the rest); on Full and the audience tabs
+           the whole list shows, track-filtered. -->
+      <div id="certifications" class="resume-section scroll-mt-24">
+        <h2 class="mb-1 mt-14 text-xl font-bold">Licenses and certifications</h2>
+        <hr class="gradient-divider mb-8 mt-3" />
+        <ul class="space-y-4">
+          {
+            certifications.map((cert, i) => (
+              <li
+                data-tracks={(cert.tracks ?? []).join(' ')}
+                data-compact-hide={i >= 5 ? '' : undefined}
+              >
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <p class="font-medium leading-snug">{cert.name}</p>
+                  <span class="font-mono text-xs whitespace-nowrap" style="color: var(--fg-subtle)">
+                    {cert.issued}
+                    {cert.expires ? ` to ${cert.expires}` : ''}
+                  </span>
+                </div>
+                <p class="text-sm" style="color: var(--fg-muted)">
+                  {cert.issuer}
+                  {cert.credentialId ? ` · ID ${cert.credentialId}` : ''}
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Education (kept in Compact: concise enough) -->
+      <div id="education" class="resume-section scroll-mt-24">
+        <h2 class="mb-1 mt-14 text-xl font-bold">Education</h2>
+        <hr class="gradient-divider mb-8 mt-3" />
+        <ul class="space-y-5">
+          {
+            education.map((ed) => (
+              <li data-tracks={(ed.tracks ?? []).join(' ')}>
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <p class="font-semibold">{ed.school}</p>
+                  <span class="font-mono text-xs whitespace-nowrap" style="color: var(--fg-subtle)">
+                    {ed.start} to {ed.end}
+                  </span>
+                </div>
+                <p class="text-sm" style="color: var(--fg-muted)">{ed.program}</p>
+                {ed.note && (
+                  <p class="resume-detail mt-1 text-sm" style="color: var(--fg-subtle)">
+                    {ed.note}
+                  </p>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Volunteering. In Compact, only currently-active roles (end "Present")
+           are kept; the rest carry data-compact-hide. Full and the audience
+           tabs show the whole list, track-filtered. -->
+      <div id="volunteering" class="resume-section scroll-mt-24">
+        <h2 class="mb-1 mt-14 text-xl font-bold">Volunteering</h2>
+        <hr class="gradient-divider mb-8 mt-3" />
+        <ul class="space-y-6">
+          {
+            volunteering.map((vol) => (
+              <li
+                data-tracks={(vol.tracks ?? []).join(' ')}
+                data-compact-hide={vol.end === 'Present' ? undefined : ''}
+              >
+                <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <p class="font-semibold">
+                    {vol.role}
+                    <span class="font-normal" style="color: var(--fg-muted)">
+                      {' '}· {vol.org}
+                    </span>
+                  </p>
+                  <span class="font-mono text-xs whitespace-nowrap" style="color: var(--fg-subtle)">
+                    {vol.start} to {vol.end}
+                  </span>
+                </div>
+                {vol.note && (
+                  <p class="mt-1 text-sm leading-relaxed" style="color: var(--fg-muted)">
+                    {vol.note}
+                  </p>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Languages (kept in Compact: concise) -->
+      <div id="languages" class="resume-section scroll-mt-24">
+        <h2 class="mb-1 mt-14 text-xl font-bold">Languages</h2>
+        <hr class="gradient-divider mb-8 mt-3" />
+        <ul class="space-y-3">
+          {
+            languages.map((lang) => (
+              <li class="flex flex-wrap items-baseline gap-x-3" data-tracks={(lang.tracks ?? []).join(' ')}>
+                <span class="font-semibold">{lang.name}</span>
+                <span class="text-sm" style="color: var(--fg-muted)">{lang.proficiency}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- On-this-page jump list. Sticky under the nav, right of the resume body.
+         Hidden below lg (the body already fills the column on small screens);
+         a link hides when the tab script filters its section out, and the link
+         for the section in view is highlighted via scroll-spy. -->
+    <aside class="hidden w-56 shrink-0 lg:block" aria-label="On this page">
+      <nav id="resume-toc" class="sticky top-24">
+        <p
+          class="mb-3 font-mono text-xs uppercase tracking-[0.2em]"
+          style="color: var(--fg-subtle)"
+        >
+          On this page
+        </p>
+        <ul class="space-y-1 border-l" style="border-color: var(--border)">
+          {
+            sectionNav.map((s) => (
+              <li>
+                <a
+                  href={`#${s.id}`}
+                  class="resume-toc-link -ml-px block border-l border-transparent py-1 pl-4 text-sm transition-colors"
+                  data-toc={s.id}
+                  style="color: var(--fg-muted)"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </aside>
+  </section>
+</Base>
+
+<script
+  is:inline
+  define:vars={{
+    summaries: summaries,
+    martinez: 'Alex Martinez',
+    amkins: 'Alex Amkins',
+  }}
+>
+  (function () {
+    // Each tab: which track to show ('all' = every role), whether to trim to
+    // the compact set (hide role bullets and data-compact-hide items), and
+    // whether to apply the green books zone.
+    const MODES = {
+      full: { track: 'all', compact: false, books: false },
+      compact: { track: 'all', compact: true, books: false },
+      devrel: { track: 'devrel', compact: false, books: false },
+      swe: { track: 'swe', compact: false, books: false },
+      books: { track: 'books', compact: false, books: true },
+    };
+
+    const tabs = document.querySelectorAll('.resume-tab');
+    // Every track-filtered element: experience articles plus the skill pills and
+    // the education, cert, volunteering, publication, and language list items.
+    const items = document.querySelectorAll('[data-tracks]');
+    const details = document.querySelectorAll('.resume-detail');
+    // Compact-only bullets (inverse of .resume-detail): shown on Compact, hidden
+    // everywhere else.
+    const highlights = document.querySelectorAll('.resume-highlights');
+    // Skill category blocks: hidden when track/compact filtering leaves them
+    // with no visible pill, so no orphan sub-heading shows.
+    const skillCategories = document.querySelectorAll('[data-skill-category]');
+    const sections = document.querySelectorAll('.resume-section');
+    const body = document.getElementById('resume-body');
+    const summaryText = document.getElementById('summary-text');
+    const nameSuffixes = document.querySelectorAll('[data-name-suffix]');
+    const tocLinks = document.querySelectorAll('.resume-toc-link');
+
+    function setActive(btn) {
+      tabs.forEach((b) => {
+        const on = b === btn;
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        b.style.borderColor = on ? 'var(--color-accent)' : 'var(--border)';
+        b.style.color = on ? 'var(--color-accent)' : 'var(--fg-muted)';
+      });
+    }
+
+    function apply(tabId) {
+      const mode = MODES[tabId] || MODES.full;
+
+      // Show/hide every track-filtered item. An untagged item (empty
+      // data-tracks) shows only when track === 'all' (Full and Compact).
+      // In Compact, items marked data-compact-hide are additionally dropped so
+      // long lists (certs, volunteering) keep only their trimmed set.
+      items.forEach((it) => {
+        const tracks = (it.getAttribute('data-tracks') || '').split(' ');
+        const trackOk = mode.track === 'all' || tracks.indexOf(mode.track) !== -1;
+        const compactOk = !(mode.compact && it.hasAttribute('data-compact-hide'));
+        it.style.display = trackOk && compactOk ? '' : 'none';
+      });
+
+      // Detail density. Full and audience tabs show the rich .resume-detail
+      // block; Compact hides it and shows the .resume-highlights bullets instead.
+      details.forEach((d) => {
+        d.style.display = mode.compact ? 'none' : '';
+      });
+      highlights.forEach((h) => {
+        h.style.display = mode.compact ? '' : 'none';
+      });
+
+      // Hide a skill category whose pills are all filtered out (by track or by
+      // the compact trim), so no orphan sub-heading shows. Runs after the items
+      // loop set each pill's display, so it reflects both track and compact.
+      skillCategories.forEach((cat) => {
+        const pills = cat.querySelectorAll('[data-tracks]');
+        const anyVisible = Array.prototype.some.call(
+          pills,
+          (p) => p.style.display !== 'none'
+        );
+        cat.style.display = anyVisible ? '' : 'none';
+      });
+
+      // Hide a whole section (heading + divider + list) when its items are all
+      // filtered out, so no tab shows an orphan heading. Keep each TOC link in
+      // lockstep with its section so the jump list never points at nothing.
+      sections.forEach((section) => {
+        const tracked = section.querySelectorAll('[data-tracks]');
+        // Sections with no track-filtered items (none today) always show.
+        const hasVisible =
+          tracked.length === 0 ||
+          Array.prototype.some.call(tracked, (it) => it.style.display !== 'none');
+        section.style.display = hasVisible ? '' : 'none';
+        const link = document.querySelector('[data-toc="' + section.id + '"]');
+        if (link) link.parentElement.style.display = hasVisible ? '' : 'none';
+      });
+
+      // Books zone re-skin + name.
+      const suffix = mode.books ? ' (' + amkins + ')' : '';
+      if (mode.books) body.setAttribute('data-zone', 'books');
+      else body.removeAttribute('data-zone');
+      nameSuffixes.forEach((el) => {
+        el.textContent = suffix;
+      });
+
+      // Per-tab summary. Every tab has an entry, so the Summary section is
+      // always populated (and always visible via the no-data-tracks rule above).
+      if (summaryText) summaryText.textContent = summaries[tabId] || summaries.full;
+    }
+
+    tabs.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        setActive(btn);
+        apply(btn.getAttribute('data-tab'));
+      });
+    });
+
+    // Default tab.
+    apply('full');
+
+    // Scroll-spy: highlight the TOC link for the section nearest the top of the
+    // viewport (just under the sticky nav). Runs across all tabs; hidden links
+    // simply never win because their section is display:none. rootMargin pins
+    // the trigger line ~96px down (matching scroll-mt-24) and 70% up from the
+    // bottom so a section counts as "current" while its top third is in view.
+    function markActive(id) {
+      tocLinks.forEach((link) => {
+        const on = link.getAttribute('data-toc') === id;
+        link.style.color = on ? 'var(--color-accent)' : 'var(--fg-muted)';
+        link.style.borderLeftColor = on ? 'var(--color-accent)' : 'transparent';
+        link.style.fontWeight = on ? '600' : '';
+      });
+    }
+
+    if ('IntersectionObserver' in window) {
+      const visible = new Set();
+      const spy = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) visible.add(e.target.id);
+            else visible.delete(e.target.id);
+          });
+          // Of the sections currently crossing the trigger band, pick the one
+          // earliest in document order so we highlight the topmost.
+          let top = null;
+          sections.forEach((s) => {
+            if (top === null && visible.has(s.id)) top = s.id;
+          });
+          if (top) markActive(top);
+        },
+        { rootMargin: '-96px 0px -70% 0px', threshold: 0 }
+      );
+      sections.forEach((s) => spy.observe(s));
+    }
+  })();
+</script>

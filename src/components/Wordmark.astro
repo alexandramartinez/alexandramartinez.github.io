@@ -1,0 +1,23 @@
+---
+/** Brand logotype. Oversized, confident, accent-marked. CSS-only, no font dep. */
+interface Props {
+  size?: 'sm' | 'lg';
+  href?: string;
+}
+const { size = 'sm', href = '/' } = Astro.props;
+const cls = size === 'lg' ? 'text-2xl' : 'text-lg';
+---
+
+<a
+  href={href}
+  class={`group inline-flex items-baseline gap-1.5 font-bold tracking-tight ${cls}`}
+  aria-label="Alex Martinez, home"
+>
+  <span style="color: var(--fg)">alex</span><span style="color: var(--color-accent)"
+    >martinez</span
+  >
+  <span
+    class="inline-block h-[0.45em] w-[0.45em] translate-y-[-0.05em] rounded-[2px] transition-transform duration-300 group-hover:rotate-45"
+    style="background: var(--color-accent)"
+    aria-hidden="true"></span>
+</a>

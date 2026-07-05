@@ -1,0 +1,293 @@
+@import 'tailwindcss';
+
+/*
+  Design tokens for alexmartinez.ca
+  Direction: bold modern / brand-led. Dark-first, vivid accent, oversized type.
+  The bookkeeping zone re-skins these tokens to a calmer, trust-first variant
+  via the [data-zone="books"] scope at the bottom of this file.
+*/
+
+@theme {
+  /* Brand. This is the light-mode / base value; dark mode softens the accent
+     to a lighter lavender in :root below (vivid violet vibrates on near-black
+     and only clears ~3.8:1 as heading text there). */
+  --color-accent: #6d4aff; /* electric violet, the primary brand color */
+  --color-accent-2: #00e0c6; /* teal secondary, used sparingly */
+  --color-accent-ink: #ffffff; /* text on top of accent */
+
+  /* Type scale (fluid, clamp-based) */
+  --text-hero: clamp(2.75rem, 8vw, 6.5rem);
+  --text-hero--line-height: 0.95;
+  --text-display: clamp(2rem, 5vw, 3.75rem);
+  --text-display--line-height: 1.02;
+
+  /* Fonts: system stack first (zero network cost), brand mono accent */
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Code', Menlo,
+    Consolas, monospace;
+
+  /* Radius + motion */
+  --radius-card: 1rem;
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ---- Theme surfaces ---- */
+:root {
+  color-scheme: dark;
+  /* Softer lavender accent for dark mode: lighter and slightly less saturated
+     than the base electric violet, so it stops vibrating on the near-black
+     surface. As heading/link text it now clears ~6:1 (was ~3.8:1). The filled
+     button needs dark ink to stay legible on this lighter fill (see below). */
+  --color-accent: #8b7bff;
+  --color-accent-ink: #161024; /* deep violet-ink on the lavender button (~7:1) */
+  --bg: #0b0b10;
+  --bg-elevated: #14141d;
+  --bg-card: #16161f;
+  --border: #262633;
+  --fg: #f4f4f7;
+  --fg-muted: #a0a0b0;
+  --fg-subtle: #6b6b7b;
+  --gradient-end: #00e0c6; /* bright cyan reads great on dark */
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  /* Restore the base electric violet for light mode. The dark :root softens
+     the accent to lavender; light must redeclare it (and white ink) or it
+     would inherit the dark override, since this block has higher specificity
+     but only sets the tokens it lists. */
+  --color-accent: #6d4aff;
+  --color-accent-ink: #ffffff;
+  --bg: #fbfbfd;
+  --bg-elevated: #ffffff;
+  --bg-card: #ffffff;
+  --border: #e6e6ee;
+  --fg: #14141d;
+  --fg-muted: #565666;
+  --fg-subtle: #8a8a9a;
+  --gradient-end: #108a7d; /* deeper teal stays readable on near-white (4.1:1) */
+}
+
+* {
+  border-color: var(--border);
+}
+
+/* Tailwind v4 Preflight resets <button> to cursor:default; restore the
+   pointer so every enabled button (and role="button") reads as clickable.
+   Disabled controls keep the default arrow. */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']),
+label[for],
+summary {
+  cursor: pointer;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Accessible focus ring */
+:where(a, button, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+/* ---- Utility helpers bound to CSS vars (used across components) ---- */
+.surface {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+}
+.text-muted {
+  color: var(--fg-muted);
+}
+.text-subtle {
+  color: var(--fg-subtle);
+}
+
+/* Layered purple + cyan glow backdrop for the hero. Two radial pools
+   (violet top-right, cyan lower-left) blend in the middle. */
+.hero-glow {
+  position: relative;
+  background:
+    radial-gradient(
+      55rem 38rem at 78% -12%,
+      color-mix(in oklab, var(--color-accent) 28%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      48rem 34rem at 8% 110%,
+      color-mix(in oklab, var(--color-accent-2) 24%, transparent),
+      transparent 60%
+    );
+}
+
+/* Gradient text: violet → cyan. Use on a headline word.
+   --gradient-end swaps to a deeper teal in light mode so the cyan half stays
+   readable (bright cyan is near-invisible on a near-white background). */
+.text-gradient {
+  color: var(--color-accent); /* fallback if background-clip:text unsupported */
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .text-gradient {
+    background: linear-gradient(
+      100deg,
+      var(--color-accent) 10%,
+      var(--gradient-end, var(--color-accent-2)) 90%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Small violet → cyan bar, used as an accent before eyebrow labels. */
+.gradient-bar {
+  display: inline-block;
+  height: 2px;
+  width: 1.75rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+}
+
+/* Soft full-bleed gradient hairline divider between sections. */
+.gradient-divider {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--color-accent) 60%, transparent),
+    color-mix(in oklab, var(--color-accent-2) 60%, transparent),
+    transparent
+  );
+  opacity: 0.7;
+}
+
+/* Gradient-bordered surface: subtle violet→cyan edge on a card. */
+.gradient-frame {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+.gradient-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    120deg,
+    color-mix(in oklab, var(--color-accent) 70%, transparent),
+    color-mix(in oklab, var(--color-accent-2) 70%, transparent)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------------
+   Content-type badges (filled tint pills on ContentCard).
+   Each content type gets its own hue drawn from the brand gradient arc
+   (violet → blue → teal → cyan, plus magenta/pink for the rarer types) so
+   a glance tells the types apart. Color is a REDUNDANT cue: the pill always
+   carries its text label too (WCAG 1.4.1), never color alone.
+
+   Two theme-specific values per type because a single hue can't clear AA on
+   both surfaces (same reason the brand accent is theme-split above): dark
+   mode uses a light tint text on a deep tint fill; light mode uses a deep
+   tint text on a pale tint fill. Every pairing here is verified >= 5.9:1
+   against its fill (AA needs 4.5:1). If you add a ContentType, add a block
+   for it in BOTH the base (dark) list and the light override, or it silently
+   falls back to the neutral --fg-muted / border pill.
+---------------------------------------------------------------------- */
+.type-badge {
+  color: var(--badge-text, var(--fg-muted));
+  background: var(--badge-fill, transparent);
+  border-color: var(--badge-fill, var(--border));
+}
+/* Dark (base :root) values. */
+.type-badge[data-type='video']   { --badge-text: #d1c6ff; --badge-fill: #2a244c; }
+.type-badge[data-type='short']   { --badge-text: #b2e6f1; --badge-fill: #183644; }
+.type-badge[data-type='article'] { --badge-text: #c1d6ff; --badge-fill: #212d4c; }
+.type-badge[data-type='repo']    { --badge-text: #aee6e0; --badge-fill: #16363a; }
+.type-badge[data-type='talk']    { --badge-text: #eccbf4; --badge-fill: #3a2746; }
+.type-badge[data-type='stream']  { --badge-text: #fac8dc; --badge-fill: #422538; }
+.type-badge[data-type='podcast'] { --badge-text: #f4d9b0; --badge-fill: #423318; }
+.type-badge[data-type='slides']  { --badge-text: #c0e8ac; --badge-fill: #26381a; }
+/* Light overrides: deep text on a pale tint. */
+:root[data-theme='light'] .type-badge[data-type='video']   { --badge-text: #44338c; --badge-fill: #ede8ff; }
+:root[data-theme='light'] .type-badge[data-type='short']   { --badge-text: #136577; --badge-fill: #e0f5fa; }
+:root[data-theme='light'] .type-badge[data-type='article'] { --badge-text: #2b4c8c; --badge-fill: #e6efff; }
+:root[data-theme='light'] .type-badge[data-type='repo']    { --badge-text: #0d655b; --badge-fill: #dff5f3; }
+:root[data-theme='light'] .type-badge[data-type='talk']    { --badge-text: #6e3b7b; --badge-fill: #f7eafb; }
+:root[data-theme='light'] .type-badge[data-type='stream']  { --badge-text: #843555; --badge-fill: #fde9f1; }
+:root[data-theme='light'] .type-badge[data-type='podcast'] { --badge-text: #7a5011; --badge-fill: #fbf0dd; }
+:root[data-theme='light'] .type-badge[data-type='slides']  { --badge-text: #3d6b26; --badge-fill: #e9f6e0; }
+
+/* ----------------------------------------------------------------------
+   Bookkeeping zone: calmer, higher-trust re-skin of the same token system.
+   Cooler/quieter accent, lighter by default, more whitespace, less motion.
+   Applied by setting data-zone="books" on the layout root.
+---------------------------------------------------------------------- */
+[data-zone='books'] {
+  /* Trustworthy green, financial-services tone. Theme-aware so the accent
+     clears WCAG AA contrast on both the near-black and near-white surfaces:
+     a single green can't pass on both, so dark/light each get their own. */
+  --color-accent: #34c785; /* bright green for dark mode (9.0:1 on bg) */
+  --color-accent-2: #4f9bff; /* blue secondary */
+  --color-accent-ink: #07140d; /* dark ink on the bright green button (8.7:1) */
+  --gradient-end: #4f9bff; /* green → blue gradient in the books zone */
+}
+
+[data-zone='books'][data-theme='light'] {
+  --color-accent: #15703f; /* deep green for light mode (5.9:1 on bg) */
+  --color-accent-ink: #ffffff; /* white ink on the deep green button (6.1:1) */
+  --gradient-end: #1f6feb; /* deeper blue stays readable on near-white */
+}
+
+/* Same light-mode greens when data-zone="books" is set on a nested container
+   (not <html>), as the /resume Bookkeeping tab does. The compound selector
+   above only matches when both attributes sit on the same element; this one
+   covers the scoped case. The dark variant needs no companion because the base
+   [data-zone='books'] rule already matches any element. */
+:root[data-theme='light'] [data-zone='books'] {
+  --color-accent: #15703f;
+  --color-accent-ink: #ffffff;
+  --gradient-end: #1f6feb;
+}

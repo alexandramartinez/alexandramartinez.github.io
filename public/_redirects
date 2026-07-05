@@ -1,0 +1,13 @@
+# Cloudflare Pages redirects.
+# Preserve old GitBook URLs after the migration so links and SEO survive.
+# Format: <from>  <to>  <status>
+#
+# Renamed/removed routes. Preserve old links and SEO.
+/work                /portfolio   301
+/about               /            301
+
+# TODO: map real legacy GitBook paths once the old URL list is confirmed.
+# Examples (uncomment + adjust to the actual old slugs):
+# /welcome            /            301
+# /read-my-articles   /portfolio   301
+# /office-hours       /contact     301

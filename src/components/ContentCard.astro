@@ -1,0 +1,116 @@
+---
+import Tag from './Tag.astro';
+import type { ContentItem } from '../data/content';
+import { youTubeThumb, gitHubThumb } from '../data/reel';
+
+interface Props {
+  item: ContentItem;
+  featured?: boolean;
+}
+const { item, featured = false } = Astro.props;
+
+// Cover image: an explicit thumbnail (articles carry a fetched og:image) wins;
+// otherwise derive one from the URL for YouTube videos/shorts and for GitHub
+// repos (their auto-generated social preview card).
+const cover = item.thumbnail ?? youTubeThumb(item.url) ?? gitHubThumb(item.url) ?? undefined;
+
+// Playable media get a centered play glyph over the cover (matches ReelCard).
+// Articles and repos do not, even though articles carry a cover image.
+const playable = item.type === 'video' || item.type === 'short' || item.type === 'stream' || item.type === 'talk' || item.type === 'podcast';
+
+const typeLabel: Record<string, string> = {
+  video: 'Video',
+  short: 'Short',
+  repo: 'Repo',
+  article: 'Article',
+  podcast: 'Podcast',
+  talk: 'Talk',
+  slides: 'Slides',
+  stream: 'Livestream',
+};
+
+const dateStr = item.date
+  ? new Date(item.date).toLocaleDateString('en-CA', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+  : '';
+const dateValid = dateStr !== 'Invalid Date' ? dateStr : '';
+---
+
+<a
+  href={item.url}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="group flex flex-col overflow-hidden rounded-[var(--radius-card)] border transition-all duration-300 hover:-translate-y-1"
+  style="background: var(--bg-card); border-color: var(--border)"
+>
+  {
+    cover && (
+      <div class="relative aspect-video w-full overflow-hidden" style="background: var(--bg-elevated)">
+        <img
+          src={cover}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          onerror="this.style.display='none'"
+          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        {playable && (
+          <span class="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
+            <span class="flex h-14 w-14 items-center justify-center rounded-full bg-black/50 transition-transform duration-300 group-hover:scale-110">
+              <svg viewBox="0 0 24 24" fill="white" class="ml-0.5 h-6 w-6">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </span>
+          </span>
+        )}
+        {item.meta?.duration && (
+          // Runtime badge: white on a dark scrim for contrast over any thumbnail.
+          <span class="absolute bottom-2 right-2 rounded bg-black/70 px-1.5 py-0.5 font-mono text-xs font-medium text-white">
+            {item.meta.duration}
+          </span>
+        )}
+      </div>
+    )
+  }
+  <div class="flex flex-1 flex-col gap-3 p-5">
+    <div class="flex flex-wrap items-center gap-2">
+      <Tag label={typeLabel[item.type] ?? item.type} type={item.type} />
+      <span class="font-mono text-xs" style="color: var(--fg-subtle)">{item.source}</span>
+    </div>
+    <h3
+      class={`font-semibold leading-snug transition-colors group-hover:text-[var(--color-accent)] ${featured ? 'text-xl' : 'text-base'}`}
+    >
+      {item.title}
+    </h3>
+    {
+      item.description && (
+        <p class="line-clamp-2 text-sm" style="color: var(--fg-muted)">
+          {item.description}
+        </p>
+      )
+    }
+    <div
+      class="mt-auto flex items-center gap-3 pt-1 font-mono text-xs"
+      style="color: var(--fg-subtle)"
+    >
+      {dateValid && <span>{dateValid}</span>}
+      {
+        item.meta?.language && (
+          <span class="inline-flex items-center gap-1">
+            <span
+              class="inline-block h-2 w-2 rounded-full"
+              style="background: var(--color-accent-2)"
+            />
+            {item.meta.language}
+          </span>
+        )
+      }
+      {item.meta?.stars !== undefined && Number(item.meta.stars) > 0 && (
+        <span>★ {item.meta.stars}</span>
+      )}
+    </div>
+  </div>
+</a>

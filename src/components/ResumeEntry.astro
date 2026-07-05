@@ -1,0 +1,85 @@
+---
+/*
+  One experience role. The header line (title, org, dates) is always visible;
+  the .resume-detail block (bullets + tools) is hidden by the Compact tab via JS.
+  data-tracks drives which audience tabs show this role.
+*/
+import type { ResumeRole } from '../data/resume';
+
+interface Props {
+  role: ResumeRole;
+}
+const { role } = Astro.props;
+
+// "org · employment · location" with empty parts dropped.
+const meta = [role.org, role.employment, role.location].filter(Boolean).join(' · ');
+const hasDetail = (role.groups && role.groups.length > 0) || (role.tools && role.tools.length > 0);
+---
+
+<article class="resume-item" data-tracks={role.tracks.join(' ')}>
+  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+    <h3 class="text-lg font-semibold leading-snug">{role.title}</h3>
+    <span class="font-mono text-xs whitespace-nowrap" style="color: var(--fg-subtle)">
+      {role.start} to {role.end}
+    </span>
+  </div>
+  <p class="mt-0.5 text-sm" style="color: var(--fg-muted)">{meta}</p>
+
+  {/* Compact-only highlights. Sibling of .resume-detail (not a child) so the
+      wholesale compact toggle does not hide it. Hidden by default; the tab
+      script shows it only on the Compact tab. */}
+  {
+    role.highlights && role.highlights.length > 0 && (
+      <ul class="resume-highlights mt-3 space-y-1.5" style="display: none">
+        {role.highlights.map((h) => (
+          <li class="flex gap-2.5 text-sm leading-relaxed" style="color: var(--fg-muted)">
+            <span class="mt-2 inline-block h-1 w-1 shrink-0 rounded-full" style="background: var(--color-accent)" aria-hidden="true" />
+            <span>{h}</span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    hasDetail && (
+      <div class="resume-detail mt-4 space-y-4">
+        {role.groups?.map((group) => (
+          <div>
+            {group.heading && (
+              <p class="mb-1.5 text-sm font-semibold" style="color: var(--color-accent)">
+                {group.heading}
+              </p>
+            )}
+            <ul class="space-y-1.5">
+              {group.bullets.map((bullet) => (
+                <li class="flex gap-2.5 text-sm leading-relaxed" style="color: var(--fg-muted)">
+                  <span class="mt-2 inline-block h-1 w-1 shrink-0 rounded-full" style="background: var(--color-accent)" aria-hidden="true" />
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+
+        {role.tools && role.tools.length > 0 && (
+          <div>
+            <p class="mb-2 text-xs font-semibold uppercase tracking-wide" style="color: var(--fg-subtle)">
+              Tools
+            </p>
+            <ul class="flex flex-wrap gap-1.5">
+              {role.tools.map((tool) => (
+                <li
+                  class="rounded-full border px-2.5 py-0.5 font-mono text-xs"
+                  style="border-color: var(--border); color: var(--fg-muted)"
+                >
+                  {tool}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    )
+  }
+</article>

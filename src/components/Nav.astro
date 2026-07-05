@@ -1,0 +1,77 @@
+---
+import { nav } from '../config';
+import Wordmark from './Wordmark.astro';
+import ThemeToggle from './ThemeToggle.astro';
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+---
+
+<header
+  class="sticky top-0 z-50 border-b backdrop-blur-md"
+  style="background: color-mix(in oklab, var(--bg) 80%, transparent); border-color: var(--border)"
+>
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
+    <Wordmark />
+
+    <div class="flex items-center gap-1 sm:gap-2">
+      <ul class="hidden items-center gap-1 sm:flex">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class="rounded-full px-3 py-2 text-sm font-medium transition-colors"
+                style={
+                  isActive(item.href)
+                    ? 'color: var(--color-accent)'
+                    : 'color: var(--fg-muted)'
+                }
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <ThemeToggle />
+
+      <!-- Mobile menu via native details/summary (no JS framework) -->
+      <details class="relative sm:hidden">
+        <summary
+          class="inline-flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-full border"
+          style="border-color: var(--border); color: var(--fg)"
+          aria-label="Open menu"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M3 6h18M3 12h18M3 18h18"></path>
+          </svg>
+        </summary>
+        <ul
+          class="absolute right-0 mt-2 w-44 rounded-xl border p-2 shadow-xl"
+          style="background: var(--bg-elevated); border-color: var(--border)"
+        >
+          {
+            nav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="block rounded-lg px-3 py-2 text-sm font-medium transition-colors"
+                  style={
+                    isActive(item.href)
+                      ? 'color: var(--color-accent)'
+                      : 'color: var(--fg)'
+                  }
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </details>
+    </div>
+  </nav>
+</header>

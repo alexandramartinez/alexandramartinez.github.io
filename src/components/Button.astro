@@ -1,0 +1,34 @@
+---
+/** Link styled as a button. Primary = filled accent, secondary = outline. */
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary';
+  external?: boolean;
+  class?: string;
+}
+const { href, variant = 'primary', external = false, class: cls = '' } = Astro.props;
+const ext = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+---
+
+<a
+  href={href}
+  {...ext}
+  class={`inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 ${cls}`}
+  style={variant === 'primary'
+    ? 'background: var(--color-accent); color: var(--color-accent-ink)'
+    : 'border: 1px solid var(--border); color: var(--fg)'}
+  data-variant={variant}
+>
+  <slot />
+</a>
+
+<style>
+  a[data-variant='primary']:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+  }
+  a[data-variant='secondary']:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+</style>

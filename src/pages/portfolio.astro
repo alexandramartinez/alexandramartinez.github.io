@@ -1,0 +1,247 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ContentCard from '../components/ContentCard.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { getAllContent } from '../data/content';
+import type { ContentItem, ContentType } from '../data/content';
+
+// Static content catalog + curated link entries (MuleSoft / Salesforce blogs).
+const live = getAllContent();
+
+const linkEntries = await getCollection('links');
+const linkItems: ContentItem[] = linkEntries
+  // Drop the seeded examples from the live site.
+  .filter((e) => !e.id.startsWith('_example'))
+  .map((e) => ({
+    type: e.data.type,
+    title: e.data.title,
+    url: e.data.url,
+    date: e.data.date ? e.data.date.toISOString() : '',
+    source: e.data.source,
+    description: e.data.description,
+  }));
+
+const all = [...live, ...linkItems].sort((a, b) =>
+  (b.date || '').localeCompare(a.date || ''),
+);
+
+// Build filter list from the types actually present, ordered alphabetically
+// by their display label ("All" is rendered separately, always first).
+const labels: Record<ContentType, string> = {
+  video: 'Videos',
+  short: 'Shorts',
+  article: 'Articles',
+  repo: 'Repos',
+  podcast: 'Podcasts',
+  talk: 'Talks',
+  slides: 'Slides',
+  stream: 'Livestreams',
+};
+const present = (Object.keys(labels) as ContentType[])
+  .filter((t) => all.some((i) => i.type === t))
+  .sort((a, b) => labels[a].localeCompare(labels[b]));
+
+// Build the channel (source) filter from the sources actually present,
+// ordered alphabetically ("All" is rendered separately, always first;
+// the "Others" catch-all is always pinned last).
+const sourcesPresent = [...new Set(all.map((i) => i.source))].sort((a, b) => {
+  if (a === 'Others') return 1;
+  if (b === 'Others') return -1;
+  return a.localeCompare(b);
+});
+---
+
+<Base title="Portfolio" description="The full portfolio: videos, articles, open source, and talks from Alex Martinez.">
+  <PageHeader eyebrow="Portfolio">
+    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">My <span class="text-gradient">portfolio</span></h1>
+    <p class="mt-3 max-w-2xl text-lg" style="color: var(--fg-muted)">
+      Everything in one place. Videos, articles, open source, and talks. Search the whole
+      catalog, or filter by type.
+    </p>
+
+    <!-- Search -->
+    <div class="mt-8 max-w-md">
+      <input
+        type="search"
+        id="content-search"
+        placeholder="Search all content..."
+        autocomplete="off"
+        aria-label="Search content"
+        class="w-full rounded-full border px-4 py-2 text-sm"
+        style="background: var(--bg-card); border-color: var(--border); color: var(--fg)"
+      />
+    </div>
+
+    <!-- Filters: two distinct axes as clean labeled rows. Each row carries an
+         inline label in the left gutter; a hairline divider separates the
+         primary axis (type) from the secondary axis (channel). No boxes, so
+         they sit naturally in the hero, spanning the same width as the grid
+         below so filters and results share one right edge. -->
+    <div class="mt-8">
+      <!-- Type filter row -->
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-4">
+        <span
+          class="shrink-0 text-[0.7rem] font-semibold uppercase tracking-[0.14em] sm:w-20 sm:pt-1.5"
+          style="color: var(--fg-muted); font-family: var(--font-mono)"
+          id="type-filter-label"
+        >
+          Type
+        </span>
+        <div class="flex flex-wrap gap-2" role="group" aria-labelledby="type-filter-label">
+          <button
+            type="button"
+            class="filter-btn rounded-full border px-4 py-1.5 text-sm font-medium transition-colors"
+            data-filter="all"
+            aria-pressed="true"
+            style="border-color: var(--color-accent); color: var(--color-accent)"
+          >
+            All
+          </button>
+          {
+            present.map((t) => (
+              <button
+                type="button"
+                class="filter-btn rounded-full border px-4 py-1.5 text-sm font-medium transition-colors"
+                data-filter={t}
+                aria-pressed="false"
+                style="border-color: var(--border); color: var(--fg-muted)"
+              >
+                {labels[t]}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+
+      <hr class="gradient-divider my-4" />
+
+      <!-- Channel (source) filter row -->
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-4">
+        <span
+          class="shrink-0 text-[0.7rem] font-semibold uppercase tracking-[0.14em] sm:w-20 sm:pt-1"
+          style="color: var(--fg-muted); font-family: var(--font-mono)"
+          id="channel-filter-label"
+        >
+          Channel
+        </span>
+        <div class="flex flex-wrap gap-2" role="group" aria-labelledby="channel-filter-label">
+          <button
+            type="button"
+            class="channel-btn rounded-full border px-3 py-1 text-xs font-medium transition-colors"
+            data-channel="all"
+            aria-pressed="true"
+            style="border-color: var(--color-accent); color: var(--color-accent)"
+          >
+            All
+          </button>
+          {
+            sourcesPresent.map((s) => (
+              <button
+                type="button"
+                class="channel-btn rounded-full border px-3 py-1 text-xs font-medium transition-colors"
+                data-channel={s}
+                aria-pressed="false"
+                style="border-color: var(--border); color: var(--fg-muted)"
+              >
+                {s}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </PageHeader>
+
+  <section class="mx-auto max-w-6xl px-5 py-12 sm:py-16">
+    {
+      all.length > 0 ? (
+        <div id="portfolio-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {all.map((item) => (
+            <div
+              class="portfolio-item"
+              data-type={item.type}
+              data-channel={item.source}
+              data-search={`${item.title} ${item.description ?? ''} ${item.source}`.toLowerCase()}
+            >
+              <ContentCard item={item} />
+            </div>
+          ))}
+        </div>
+        <p
+          id="no-results"
+          hidden
+          class="mt-2 rounded-[var(--radius-card)] border border-dashed px-5 py-12 text-center text-sm"
+          style="color: var(--fg-subtle); border-color: var(--border)"
+        >
+          No content matches your search.
+        </p>
+      ) : (
+        <p class="rounded-[var(--radius-card)] border border-dashed px-5 py-12 text-center text-sm" style="color: var(--fg-subtle); border-color: var(--border)">
+          Content feeds are warming up. New videos, articles, and repos will appear here.
+        </p>
+      )
+    }
+  </section>
+</Base>
+
+<script is:inline>
+  (function () {
+    const btns = document.querySelectorAll('.filter-btn');
+    const channelBtns = document.querySelectorAll('.channel-btn');
+    const items = document.querySelectorAll('.portfolio-item');
+    const search = document.getElementById('content-search');
+    const noResults = document.getElementById('no-results');
+
+    // Composed state: the active type filter, the active channel filter, and
+    // the current search query. A card shows only when all three match.
+    let activeFilter = 'all';
+    let activeChannel = 'all';
+    let query = '';
+
+    function apply() {
+      let visible = 0;
+      items.forEach((it) => {
+        const typeOk = activeFilter === 'all' || it.getAttribute('data-type') === activeFilter;
+        const channelOk = activeChannel === 'all' || it.getAttribute('data-channel') === activeChannel;
+        const textOk = query === '' || (it.getAttribute('data-search') || '').includes(query);
+        const show = typeOk && channelOk && textOk;
+        it.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      if (noResults) noResults.hidden = visible > 0;
+    }
+
+    function setActive(group, btn) {
+      group.forEach((b) => {
+        const on = b === btn;
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        b.style.borderColor = on ? 'var(--color-accent)' : 'var(--border)';
+        b.style.color = on ? 'var(--color-accent)' : 'var(--fg-muted)';
+      });
+    }
+
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeFilter = btn.getAttribute('data-filter');
+        setActive(btns, btn);
+        apply();
+      });
+    });
+
+    channelBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeChannel = btn.getAttribute('data-channel');
+        setActive(channelBtns, btn);
+        apply();
+      });
+    });
+
+    if (search) {
+      search.addEventListener('input', () => {
+        query = search.value.trim().toLowerCase();
+        apply();
+      });
+    }
+  })();
+</script>
