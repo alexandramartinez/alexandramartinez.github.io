@@ -3235,6 +3235,7 @@ export const content: ContentItem[] = [
     url: "https://podcasts.apple.com/nz/podcast/221-mulesoft-anypoint-code-builder-with-alex-martinez/id1482325260?i=1000661504627",
     date: "2024-07-08T00:00:00.000Z",
     source: "Salesforce",
+    thumbnail: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts115/v4/c0/6d/b7/c06db7e5-bece-6997-a720-63b7d5bf9dbc/mza_10740393502844999786.png/600x600bb.webp",
     description: "Alex joins the Salesforce Developer Podcast to discuss Anypoint Code Builder, the VS Code based IDE replacing the older Eclipse based Anypoint Studio, plus improvements to DataWeave and MUnit.",
   },
   {
