@@ -22,6 +22,10 @@ const featured = defineCollection({
     thumbnail: z.string().url().optional(),
     // Optional runtime badge for playable media, e.g. "2:52" or "1:01:01".
     duration: z.string().optional(),
+    // Optional engagement counts for repo cards, shown in the footer with
+    // icons in place of a date (repos have no meaningful date). Hand-maintained.
+    stars: z.number().optional(),
+    forks: z.number().optional(),
     // Display order: lower numbers first.
     order: z.number().default(0),
   }),

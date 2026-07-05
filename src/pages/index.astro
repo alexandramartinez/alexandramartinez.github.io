@@ -23,7 +23,11 @@ const featuredItems: ContentItem[] = featuredEntries.map((e) => ({
   source: e.data.source ?? '',
   description: e.data.blurb,
   thumbnail: e.data.thumbnail,
-  meta: e.data.duration ? { duration: e.data.duration } : undefined,
+  meta: {
+    ...(e.data.duration ? { duration: e.data.duration } : {}),
+    ...(e.data.stars !== undefined ? { stars: e.data.stars } : {}),
+    ...(e.data.forks !== undefined ? { forks: e.data.forks } : {}),
+  },
 }));
 ---
 

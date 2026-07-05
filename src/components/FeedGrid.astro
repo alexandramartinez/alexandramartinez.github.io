@@ -12,7 +12,7 @@ const { items, featured = false, emptyMessage = 'Nothing here yet. Check back so
 
 {
   items.length > 0 ? (
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div class={`grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 ${featured ? '[grid-auto-rows:1fr]' : ''}`}>
       {items.map((item) => (
         <ContentCard item={item} featured={featured} />
       ))}

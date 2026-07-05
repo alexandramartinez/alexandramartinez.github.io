@@ -1,6 +1,6 @@
 ---
 title: 'MuleSoft Overview: A Beginner''s Guide'
-blurb: 'A tour of the MuleSoft product family and how to plug into the community, the most-watched session of the beginner series.'
+blurb: 'A guided tour of the MuleSoft product family and the many ways to plug into the community. This is the most-watched session of the beginner series, a friendly starting point for anyone new to the platform.'
 url: 'https://www.youtube.com/watch?v=I6BWPoD639A'
 type: 'video'
 source: 'ProstDev'
