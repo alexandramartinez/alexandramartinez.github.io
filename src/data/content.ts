@@ -4328,7 +4328,25 @@ export const content: ContentItem[] = [
     meta: { stars: 0, language: "" },
   },
 
-  // ProstDev Blog (138)
+  // ProstDev Blog (140)
+  {
+    type: "article",
+    title: "Keep Your .claude Folder Private with a Git Submodule",
+    url: "https://prostdev.com/post/private-claude-folder-git-submodule/",
+    thumbnail: "https://prostdev.com/og/post/private-claude-folder-git-submodule.png",
+    date: "2026-07-05T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Split your .claude/ config into a private repo while your project stays public: a git submodule plus a CLAUDE.md symlink so Claude Code still finds it.",
+  },
+  {
+    type: "article",
+    title: "AI Agent Skills: What They Are and How to Use Them",
+    url: "https://prostdev.com/post/what-are-ai-agent-skills-and-how-to-use-them/",
+    thumbnail: "https://prostdev.com/og/post/what-are-ai-agent-skills-and-how-to-use-them.png",
+    date: "2026-07-04T00:00:00.000Z",
+    source: "ProstDev",
+    description: "A beginner's guide to AI agent skills: what a SKILL.md file is, how to set one up in Claude Code, and how to hand an AI an llms.txt to pick the skill it needs.",
+  },
   {
     type: "article",
     title: "Claude Code vs CurieTech AI: Which Writes Better DataWeave?",
