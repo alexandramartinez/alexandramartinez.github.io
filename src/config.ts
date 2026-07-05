@@ -16,11 +16,9 @@ export const site = {
 } as const;
 
 export const socials = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alexandra-martinez/', kind: 'linkedin' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alexandra-n-martinez/', kind: 'linkedin' },
   { label: 'YouTube', href: 'https://www.youtube.com/@ProstDev', kind: 'youtube' },
   { label: 'GitHub', href: 'https://github.com/alexandramartinez', kind: 'github' },
-  { label: 'Twitch', href: 'https://www.twitch.tv/DevAlexMartinez', kind: 'twitch' },
-  { label: 'Instagram', href: 'https://www.instagram.com/DevAlexMartinez', kind: 'instagram' },
 ] as const;
 
 // The startup footnote (single tasteful mention, never a section).
