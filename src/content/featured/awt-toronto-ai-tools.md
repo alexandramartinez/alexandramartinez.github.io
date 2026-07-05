@@ -6,5 +6,5 @@ type: 'slides'
 source: 'Salesforce'
 date: 2025-06-30
 thumbnail: 'https://image.slidesharecdn.com/agentforceworldtourtoronto25-superchargemulesoftdevelopmentwithmodernaitools-250630140239-b406e25f/85/Agentforce-World-Tour-Toronto-25-Supercharge-MuleSoft-Development-with-Modern-AI-Tools-1-320.jpg'
-order: 5
+order: 7
 ---

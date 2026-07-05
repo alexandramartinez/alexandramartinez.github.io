@@ -3902,7 +3902,7 @@ export const content: ContentItem[] = [
     date: "2025-01-30T19:26:08.000Z",
     source: "GitHub",
     description: "Here's a compilation of some of the (fairly complex) DW scripts I've done.",
-    meta: { stars: 46, language: "DataWeave" },
+    meta: { stars: 46, forks: 16, language: "DataWeave" },
   },
   {
     type: "repo",
@@ -3911,7 +3911,7 @@ export const content: ContentItem[] = [
     date: "2023-10-13T23:27:18.000Z",
     source: "GitHub",
     description: "Everything discussed in the Twitch live sessions for MuleSoft beginners.",
-    meta: { stars: 43, language: "CSS" },
+    meta: { stars: 43, forks: 16, language: "CSS" },
   },
   {
     type: "repo",
@@ -3920,7 +3920,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T21:52:18.000Z",
     source: "GitHub",
     description: "This is a Mule 4 app created to communicate with your Data Cloud. You can query, insert, or delete records using this integration; as well as flatten a YAML schema for your Salesforce settings.",
-    meta: { stars: 23, language: "RAML" },
+    meta: { stars: 23, forks: 10, language: "RAML" },
   },
   {
     type: "repo",
@@ -3929,7 +3929,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T21:57:05.000Z",
     source: "GitHub",
     description: "Setting up CI/CD pipelines with GitHub actions and a simple Mule app. Using GitHub actions to deploy the Mule application to CloudHub automatically.",
-    meta: { stars: 17, language: "" },
+    meta: { stars: 17, forks: 38, language: "" },
   },
   {
     type: "repo",
@@ -3938,7 +3938,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T21:55:36.000Z",
     source: "GitHub",
     description: "Code demonstrated in presentation \"Reviewing a complex DataWeave transformation use-case\"",
-    meta: { stars: 4, language: "DataWeave" },
+    meta: { stars: 4, forks: 3, language: "DataWeave" },
   },
   {
     type: "repo",
@@ -3947,7 +3947,7 @@ export const content: ContentItem[] = [
     date: "2025-05-02T19:53:28.000Z",
     source: "GitHub",
     description: "Mule application making use of Anypoint MQ and demonstrating how to use MUnit to create significant tests for different scenarios. Using spy, verify call, assertions, mock, and more.",
-    meta: { stars: 2, language: "DataWeave" },
+    meta: { stars: 2, forks: 1, language: "DataWeave" },
   },
   {
     type: "repo",
@@ -3956,7 +3956,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T22:05:40.000Z",
     source: "GitHub",
     description: "MuleSoft EDA-based integration using AsyncAPI specifications, Anypoint Code Builder, and Salesforce Platform Events.",
-    meta: { stars: 2, language: "" },
+    meta: { stars: 2, forks: 3, language: "" },
   },
   {
     type: "repo",
@@ -3974,7 +3974,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T21:59:46.000Z",
     source: "GitHub",
     description: "Example Mule project with two MUnit test suites and 5 tests - 1 that fails on purpose.",
-    meta: { stars: 2, language: "" },
+    meta: { stars: 2, forks: 1, language: "" },
   },
   {
     type: "repo",
@@ -3983,7 +3983,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T21:58:58.000Z",
     source: "GitHub",
     description: "Example of some BAT (Blackbox Automated Testing) CLI functional tests.",
-    meta: { stars: 2, language: "HTML" },
+    meta: { stars: 2, forks: 1, language: "HTML" },
   },
   {
     type: "repo",
@@ -3992,7 +3992,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T21:57:43.000Z",
     source: "GitHub",
     description: "Test app used to sync information between API Manager, Runtime Manager (CloudHub 2.0), and Exchange using GitHub Actions and Anypoint CLI.",
-    meta: { stars: 2, language: "" },
+    meta: { stars: 2, forks: 1, language: "" },
   },
   {
     type: "repo",
@@ -4010,7 +4010,7 @@ export const content: ContentItem[] = [
     date: "2025-08-28T21:34:47.000Z",
     source: "GitHub",
     description: "A MuleSoft API implementation that demonstrates MySQL database integration using Docker containers. This project shows how to build a Todo API with database connectivity in Anypoint Code Builder (ACB).",
-    meta: { stars: 1, language: "DataWeave" },
+    meta: { stars: 1, forks: 1, language: "DataWeave" },
   },
   {
     type: "repo",
@@ -4037,7 +4037,7 @@ export const content: ContentItem[] = [
     date: "2025-05-03T01:59:51.000Z",
     source: "GitHub",
     description: "Based on my other project, I generated MUnit tests using CurieTech AI and these are the results.",
-    meta: { stars: 1, language: "CSS" },
+    meta: { stars: 1, forks: 1, language: "CSS" },
   },
   {
     type: "repo",
@@ -4073,7 +4073,7 @@ export const content: ContentItem[] = [
     date: "2024-11-19T16:52:56.000Z",
     source: "GitHub",
     description: "All the resources you need to implement a functional simple architecture with an Accounts and an Email services using AsyncAPI, Anypoint Code Builder, and the available message brokers: Anypoint MQ, Kafka, Solace PubSub+, and Salesforce CDC/Platform Events",
-    meta: { stars: 1, language: "" },
+    meta: { stars: 1, forks: 1, language: "" },
   },
   {
     type: "repo",
@@ -4091,7 +4091,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T21:59:14.000Z",
     source: "GitHub",
     description: "DataWeave Utilities library for common functions in Exchange. Using GitHub actions to keep the library updated in Exchange.",
-    meta: { stars: 1, language: "DataWeave" },
+    meta: { stars: 1, forks: 2, language: "DataWeave" },
   },
   {
     type: "repo",
@@ -4127,7 +4127,7 @@ export const content: ContentItem[] = [
     date: "2022-05-26T15:23:02.000Z",
     source: "GitHub",
     description: "Max Manager app for Slack! Keep all your To Dos in one place with this app.",
-    meta: { stars: 1, language: "DataWeave" },
+    meta: { stars: 1, forks: 1, language: "DataWeave" },
   },
   {
     type: "repo",
@@ -4253,7 +4253,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T21:58:33.000Z",
     source: "GitHub",
     description: "Repo created from the \"Implement Anypoint API Catalog CLI in GitHub Actions\" developer tutorial.",
-    meta: { stars: 0, language: "" },
+    meta: { stars: 0, forks: 2, language: "" },
   },
   {
     type: "repo",
@@ -4262,7 +4262,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T21:58:06.000Z",
     source: "GitHub",
     description: "Repository used to demonstrate how to create a simple CI/CD pipeline using a connected app in Anypoint Platform (for MFA).",
-    meta: { stars: 0, language: "" },
+    meta: { stars: 0, forks: 1, language: "" },
   },
   {
     type: "repo",
@@ -4280,7 +4280,7 @@ export const content: ContentItem[] = [
     date: "2024-11-12T21:53:12.000Z",
     source: "GitHub",
     description: "This is a simple Mule 4 application where you can see the process to authenticate to Data Cloud using only HTTP Requests.",
-    meta: { stars: 0, language: "" },
+    meta: { stars: 0, forks: 1, language: "" },
   },
   {
     type: "repo",

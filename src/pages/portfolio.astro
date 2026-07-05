@@ -156,10 +156,10 @@ const sourcesPresent = [...new Set(all.map((i) => i.source))].sort((a, b) => {
   <section class="mx-auto max-w-6xl px-5 py-12 sm:py-16">
     {
       all.length > 0 ? (
-        <div id="portfolio-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div id="portfolio-grid" class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 [grid-auto-rows:1fr]">
           {all.map((item) => (
             <div
-              class="portfolio-item"
+              class="portfolio-item [&>a]:h-full"
               data-type={item.type}
               data-channel={item.source}
               data-search={`${item.title} ${item.description ?? ''} ${item.source}`.toLowerCase()}
