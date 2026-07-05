@@ -129,13 +129,15 @@ export function youTubeThumb(url: string): string | null {
 }
 
 /**
- * Derive a cover image from a GitHub repo link, no fetching required.
- * GitHub auto-generates a social preview per repo at opengraph.githubassets.com
- * (the same 1200x630 card you see when a repo is shared). The leading path
- * segment is a cache-busting token, so any value works. Returns null for
- * non-repo GitHub URLs (profiles, gists) and non-GitHub URLs.
+ * Cover image for a GitHub repo link. We deliberately serve one shared static
+ * card (public/repo-cover.jpg) for every repo rather than GitHub's per-repo
+ * social preview at opengraph.githubassets.com: that endpoint loads
+ * intermittently, so repo cards would flicker between an image and an empty
+ * box. The static card is self-contained (mid-tone indigo panel) so it reads
+ * on both the dark and light themes. Returns null for non-repo GitHub URLs
+ * (profiles, gists) and non-GitHub URLs, so the caller renders no cover.
  */
 export function gitHubThumb(url: string): string | null {
-  const m = url.match(/^https?:\/\/github\.com\/([\w.-]+)\/([\w.-]+)/);
-  return m ? `https://opengraph.githubassets.com/1/${m[1]}/${m[2]}` : null;
+  const isRepo = /^https?:\/\/github\.com\/[\w.-]+\/[\w.-]+/.test(url);
+  return isRepo ? '/repo-cover.jpg' : null;
 }
