@@ -3767,7 +3767,16 @@ export const content: ContentItem[] = [
     description: "How Bits in Glass used Mule 4 to build a Slack integration that sends automated messages, closing a productivity gap.",
   },
 
-  // DEV.to (14)
+  // DEV.to (15)
+  {
+    type: "article",
+    title: "Migrating a Wix blog to Markdown: the server-HTML trap and the zero-width regex that pegged my CPU",
+    url: "https://dev.to/devalexmartinez/migrating-a-wix-blog-to-markdown-the-server-html-trap-and-the-zero-width-regex-that-pegged-my-cpu-1lhc",
+    thumbnail: "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ffl85j0fw8dpb0r9xnajq.png",
+    date: "2026-07-09T00:00:00.000Z",
+    source: "DEV.to",
+    description: "Migrating a 138-post blog from Wix to a static Astro site: why server-HTML converters miss client-hydrated content, a dependency-free Node tokenizer, and a regex bug where a trailing empty alternative pegged a CPU core.",
+  },
   {
     type: "article",
     title: "Install ACB on Cursor",
