@@ -4338,7 +4338,16 @@ export const content: ContentItem[] = [
     meta: { stars: 0, language: "" },
   },
 
-  // ProstDev Blog (140)
+  // ProstDev Blog (141)
+  {
+    type: "article",
+    title: "Migrating a Blog From Wix to Astro: What Breaks",
+    url: "https://prostdev.com/post/migrating-a-blog-from-wix-to-astro/",
+    thumbnail: "https://prostdev.com/og/post/migrating-a-blog-from-wix-to-astro.png",
+    date: "2026-07-09T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Moving 138 posts from Wix to Astro: the code, images, videos, and tables the export silently drops, and how I recovered every piece without fabricating a thing.",
+  },
   {
     type: "article",
     title: "Keep Your .claude Folder Private with a Git Submodule",

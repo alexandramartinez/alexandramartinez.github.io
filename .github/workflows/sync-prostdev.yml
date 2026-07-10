@@ -1,0 +1,59 @@
+name: Sync ProstDev content
+
+on:
+  # Once a day, at 13:00 UTC (roughly overnight in North America).
+  schedule:
+    - cron: "0 13 * * *"
+  # Allow manual runs from the Actions tab.
+  workflow_dispatch:
+
+# The job only files/updates an issue. It never pushes code.
+permissions:
+  contents: read
+  issues: write
+
+# Never run two syncs at once; a queued run supersedes an in-flight one.
+concurrency:
+  group: sync-prostdev
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Compares llms.txt against src/data/content.ts and, if anything is new,
+      # writes the issue body to .github/sync-issue.md and sets the step output
+      # `added` (an integer count). Never edits content.ts.
+      - name: Find new ProstDev content
+        id: sync
+        run: node scripts/sync-prostdev.mjs
+
+      # Create the tracking issue, or update the existing open one, so daily
+      # runs don't pile up duplicates. The body is content-derived, so it is
+      # passed via a file (--body-file), never an inline expression.
+      - name: File or update the tracking issue
+        if: steps.sync.outputs.added != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TITLE: "New ProstDev content to add"
+        run: |
+          existing="$(gh issue list --state open --label prostdev-sync \
+            --json number --jq '.[0].number')"
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --body-file .github/sync-issue.md
+            gh issue comment "$existing" --body "Refreshed by the daily sync ($(date -u +%Y-%m-%d))."
+            echo "Updated issue #$existing"
+          else
+            gh label create prostdev-sync --color 5319e7 \
+              --description "Tracks new ProstDev content to add to the catalog" 2>/dev/null || true
+            gh issue create --title "$TITLE" --label prostdev-sync,content \
+              --body-file .github/sync-issue.md
+          fi
