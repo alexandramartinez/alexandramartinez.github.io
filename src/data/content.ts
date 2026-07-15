@@ -604,6 +604,13 @@ export const content: ContentItem[] = [
   },
   {
     type: "video",
+    title: "3 AIs, 1 MuleSoft Prompt, Who Codes Like an Architect?",
+    url: "https://www.youtube.com/watch?v=qB6x64yt5m4",
+    date: "2026-07-14T11:30:32.000Z",
+    source: "ProstDev",
+  },
+  {
+    type: "video",
     title: "Claude Code vs CurieTech AI: Solving Advent of Code 2025 Days 1 and 2 in DataWeave (MuleSoft)",
     url: "https://www.youtube.com/watch?v=C0QB4Z1LwxM",
     date: "2026-05-28T14:00:34.000Z",
@@ -4339,6 +4346,15 @@ export const content: ContentItem[] = [
   },
 
   // ProstDev Blog (141)
+  {
+    type: "article",
+    title: "3 AIs Design API-Led Connectivity in MuleSoft: Claude vs CurieTech vs MuleSoft Vibes",
+    url: "https://prostdev.com/post/ai-showdown-3-ais-design-api-led-connectivity-in-mulesoft",
+    thumbnail: "https://prostdev.com/og/post/ai-showdown-3-ais-design-api-led-connectivity-in-mulesoft.png",
+    date: "2026-07-14T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Round 2 of AI Showdown: MuleSoft Edition. I gave Claude, CurieTech AI, and MuleSoft Vibes the same prompt, build a 3-layer API-led network for Customers and Orders, and scored the results on rigor.",
+  },
   {
     type: "article",
     title: "Migrating a Blog From Wix to Astro: What Breaks",
