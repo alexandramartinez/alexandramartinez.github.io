@@ -1,7 +1,7 @@
 ---
 import Tag from './Tag.astro';
 import type { ContentItem } from '../data/content';
-import { youTubeThumb, gitHubThumb } from '../data/reel';
+import { presentContentItem } from '../lib/present';
 
 interface Props {
   item: ContentItem;
@@ -9,34 +9,10 @@ interface Props {
 }
 const { item, featured = false } = Astro.props;
 
-// Cover image: an explicit thumbnail (articles carry a fetched og:image) wins;
-// otherwise derive one from the URL for YouTube videos/shorts and for GitHub
-// repos (their auto-generated social preview card).
-const cover = item.thumbnail ?? youTubeThumb(item.url) ?? gitHubThumb(item.url) ?? undefined;
-
-// Playable media get a centered play glyph over the cover (matches ReelCard).
-// Articles and repos do not, even though articles carry a cover image.
-const playable = item.type === 'video' || item.type === 'short' || item.type === 'stream' || item.type === 'talk' || item.type === 'podcast';
-
-const typeLabel: Record<string, string> = {
-  video: 'Video',
-  short: 'Short',
-  repo: 'Repo',
-  article: 'Article',
-  podcast: 'Podcast',
-  talk: 'Talk',
-  slides: 'Slides',
-  stream: 'Livestream',
-};
-
-const dateStr = item.date
-  ? new Date(item.date).toLocaleDateString('en-CA', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
-  : '';
-const dateValid = dateStr !== 'Invalid Date' ? dateStr : '';
+// Derived display values (label, cover, playable, formatted date). The badges
+// below (duration, language, stars, forks) stay inline: they are conditional
+// markup over item.meta, not derivation.
+const { label, dateLabel, cover, playable } = presentContentItem(item);
 ---
 
 <a
@@ -77,7 +53,7 @@ const dateValid = dateStr !== 'Invalid Date' ? dateStr : '';
   }
   <div class="flex flex-1 flex-col gap-3 p-5">
     <div class="flex flex-wrap items-center gap-2">
-      <Tag label={typeLabel[item.type] ?? item.type} type={item.type} />
+      <Tag label={label} type={item.type} />
       <span class="font-mono text-xs" style="color: var(--fg-subtle)">{item.source}</span>
     </div>
     <h3
@@ -96,7 +72,7 @@ const dateValid = dateStr !== 'Invalid Date' ? dateStr : '';
       class="mt-auto flex items-center gap-3 pt-1 font-mono text-xs"
       style="color: var(--fg-subtle)"
     >
-      {dateValid && <span>{dateValid}</span>}
+      {dateLabel && <span>{dateLabel}</span>}
       {
         item.meta?.language && (
           <span class="inline-flex items-center gap-1">

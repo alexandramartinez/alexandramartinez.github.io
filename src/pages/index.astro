@@ -5,30 +5,13 @@ import Section from '../components/Section.astro';
 import FeedGrid from '../components/FeedGrid.astro';
 import Button from '../components/Button.astro';
 import Tag from '../components/Tag.astro';
-import { getAllContent } from '../data/content';
-import type { ContentItem } from '../data/content';
+import { getLatest, getFeatured } from '../data/content';
 
-// Static content catalog (manually maintained in src/data/content.ts).
-const latest = getAllContent().slice(0, 6);
-
-// Curated featured set.
-const featuredEntries = (await getCollection('featured')).sort(
-  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0),
-);
-const featuredItems: ContentItem[] = featuredEntries.map((e) => ({
-  type: e.data.type,
-  title: e.data.title,
-  url: e.data.url,
-  date: e.data.date ? e.data.date.toISOString() : '',
-  source: e.data.source ?? '',
-  description: e.data.blurb,
-  thumbnail: e.data.thumbnail,
-  meta: {
-    ...(e.data.duration ? { duration: e.data.duration } : {}),
-    ...(e.data.stars !== undefined ? { stars: e.data.stars } : {}),
-    ...(e.data.forks !== undefined ? { forks: e.data.forks } : {}),
-  },
-}));
+// The homepage "Latest" samples the newest hand-maintained items (live list
+// only, not link entries). "Best work" is the hand-ordered featured showcase.
+const latest = getLatest(6);
+const featuredEntries = await getCollection('featured');
+const featuredItems = getFeatured(featuredEntries);
 ---
 
 <Base>

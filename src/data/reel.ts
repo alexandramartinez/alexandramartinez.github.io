@@ -33,7 +33,7 @@ export interface ReelItem {
   duration: string;
   /** Platform label; defaults to YouTube where omitted. */
   source?: string;
-  /** Optional thumbnail override; by default derived from the URL (see youTubeThumb). */
+  /** Optional thumbnail override; by default derived from the URL (see src/lib/thumbnails.ts). */
   thumbnail?: string;
 }
 
@@ -108,36 +108,5 @@ export const reel: ReelItem[] = [
   // },
 ];
 
-/**
- * Extract a YouTube video id from any of Alex's URL shapes
- * (watch?v=, /shorts/, youtu.be/, /embed/). Pure string parsing, no network.
- */
-export function youTubeId(url: string): string | null {
-  const m = url.match(/(?:v=|\/shorts\/|youtu\.be\/|\/embed\/)([\w-]{6,})/);
-  return m ? m[1] : null;
-}
-
-/**
- * Derive a thumbnail URL from a YouTube link, no fetching required.
- * Uses hqdefault.jpg: it exists for every video (unlike maxresdefault) and is
- * crisp at card sizes. Cards crop it with object-cover. Returns null for
- * non-YouTube URLs, in which case the caller should fall back to item.thumbnail.
- */
-export function youTubeThumb(url: string): string | null {
-  const id = youTubeId(url);
-  return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : null;
-}
-
-/**
- * Cover image for a GitHub repo link. We deliberately serve one shared static
- * card (public/repo-cover.jpg) for every repo rather than GitHub's per-repo
- * social preview at opengraph.githubassets.com: that endpoint loads
- * intermittently, so repo cards would flicker between an image and an empty
- * box. The static card is self-contained (mid-tone indigo panel) so it reads
- * on both the dark and light themes. Returns null for non-repo GitHub URLs
- * (profiles, gists) and non-GitHub URLs, so the caller renders no cover.
- */
-export function gitHubThumb(url: string): string | null {
-  const isRepo = /^https?:\/\/github\.com\/[\w.-]+\/[\w.-]+/.test(url);
-  return isRepo ? '/repo-cover.jpg' : null;
-}
+// URL to thumbnail derivation (youTubeThumb, gitHubThumb) now lives in
+// src/lib/thumbnails.ts. A future reel component imports it from there.

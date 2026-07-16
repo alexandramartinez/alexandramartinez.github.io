@@ -3,49 +3,28 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ContentCard from '../components/ContentCard.astro';
 import PageHeader from '../components/PageHeader.astro';
-import { getAllContent } from '../data/content';
-import type { ContentItem, ContentType } from '../data/content';
+import { getCatalog, facets } from '../data/content';
+import { typeLabelPlural } from '../lib/present';
 
-// Static content catalog + curated link entries (MuleSoft / Salesforce blogs).
-const live = getAllContent();
-
+// The full catalog: hand-maintained content merged with curated link entries
+// (MuleSoft / Salesforce blogs), newest first. The links collection is the only
+// astro:content dependency; the catalog module owns the merge and date mapping.
 const linkEntries = await getCollection('links');
-const linkItems: ContentItem[] = linkEntries
-  // Drop the seeded examples from the live site.
-  .filter((e) => !e.id.startsWith('_example'))
-  .map((e) => ({
-    type: e.data.type,
-    title: e.data.title,
-    url: e.data.url,
-    date: e.data.date ? e.data.date.toISOString() : '',
-    source: e.data.source,
-    description: e.data.description,
-  }));
+const all = getCatalog(linkEntries);
 
-const all = [...live, ...linkItems].sort((a, b) =>
-  (b.date || '').localeCompare(a.date || ''),
+// Which types and sources are actually present. The module reports the raw
+// sets; the display ordering below is this page's own concern.
+const { types: typesPresent, sources: sourcesRaw } = facets(all);
+
+// Type filter, ordered alphabetically by display label ("All" is rendered
+// separately, always first). Plural labels are shared with the card via present.ts.
+const present = typesPresent.sort((a, b) =>
+  typeLabelPlural[a].localeCompare(typeLabelPlural[b]),
 );
 
-// Build filter list from the types actually present, ordered alphabetically
-// by their display label ("All" is rendered separately, always first).
-const labels: Record<ContentType, string> = {
-  video: 'Videos',
-  short: 'Shorts',
-  article: 'Articles',
-  repo: 'Repos',
-  podcast: 'Podcasts',
-  talk: 'Talks',
-  slides: 'Slides',
-  stream: 'Livestreams',
-};
-const present = (Object.keys(labels) as ContentType[])
-  .filter((t) => all.some((i) => i.type === t))
-  .sort((a, b) => labels[a].localeCompare(labels[b]));
-
-// Build the channel (source) filter from the sources actually present,
-// ordered alphabetically ("All" is rendered separately, always first;
-// the "Others" catch-all is always pinned last).
-const sourcesPresent = [...new Set(all.map((i) => i.source))].sort((a, b) => {
+// Channel (source) filter, ordered alphabetically ("All" is rendered
+// separately, always first; the "Others" catch-all is always pinned last).
+const sourcesPresent = sourcesRaw.sort((a, b) => {
   if (a === 'Others') return 1;
   if (b === 'Others') return -1;
   return a.localeCompare(b);
@@ -107,7 +86,7 @@ const sourcesPresent = [...new Set(all.map((i) => i.source))].sort((a, b) => {
                 aria-pressed="false"
                 style="border-color: var(--border); color: var(--fg-muted)"
               >
-                {labels[t]}
+                {typeLabelPlural[t]}
               </button>
             ))
           }
@@ -185,63 +164,71 @@ const sourcesPresent = [...new Set(all.map((i) => i.source))].sort((a, b) => {
   </section>
 </Base>
 
-<script is:inline>
-  (function () {
-    const btns = document.querySelectorAll('.filter-btn');
-    const channelBtns = document.querySelectorAll('.channel-btn');
-    const items = document.querySelectorAll('.portfolio-item');
-    const search = document.getElementById('content-search');
-    const noResults = document.getElementById('no-results');
+<!--
+  Unlike the other client scripts in this repo (which are `is:inline`), this one
+  is intentionally bundled so it can import the tested `matchesCriteria` rule.
+  The script is only a DOM adapter: it reads each card's data-* fields, calls the
+  matcher, and toggles visibility. The matching rule itself lives in src/lib.
+-->
+<script>
+  import { matchesCriteria, type FilterCriteria } from '../lib/catalogFilter';
 
-    // Composed state: the active type filter, the active channel filter, and
-    // the current search query. A card shows only when all three match.
-    let activeFilter = 'all';
-    let activeChannel = 'all';
-    let query = '';
+  const btns = document.querySelectorAll<HTMLElement>('.filter-btn');
+  const channelBtns = document.querySelectorAll<HTMLElement>('.channel-btn');
+  const items = document.querySelectorAll<HTMLElement>('.portfolio-item');
+  const search = document.getElementById('content-search') as HTMLInputElement | null;
+  const noResults = document.getElementById('no-results');
 
-    function apply() {
-      let visible = 0;
-      items.forEach((it) => {
-        const typeOk = activeFilter === 'all' || it.getAttribute('data-type') === activeFilter;
-        const channelOk = activeChannel === 'all' || it.getAttribute('data-channel') === activeChannel;
-        const textOk = query === '' || (it.getAttribute('data-search') || '').includes(query);
-        const show = typeOk && channelOk && textOk;
-        it.style.display = show ? '' : 'none';
-        if (show) visible++;
-      });
-      if (noResults) noResults.hidden = visible > 0;
-    }
+  // Composed state: the active type filter, the active channel filter, and the
+  // current search query. A card shows only when all three match.
+  const criteria: FilterCriteria = { type: 'all', channel: 'all', query: '' };
 
-    function setActive(group, btn) {
-      group.forEach((b) => {
-        const on = b === btn;
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
-        b.style.borderColor = on ? 'var(--color-accent)' : 'var(--border)';
-        b.style.color = on ? 'var(--color-accent)' : 'var(--fg-muted)';
-      });
-    }
-
-    btns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        activeFilter = btn.getAttribute('data-filter');
-        setActive(btns, btn);
-        apply();
-      });
+  function apply() {
+    let visible = 0;
+    items.forEach((it) => {
+      const show = matchesCriteria(
+        {
+          type: it.getAttribute('data-type') ?? '',
+          source: it.getAttribute('data-channel') ?? '',
+          search: it.getAttribute('data-search') ?? '',
+        },
+        criteria,
+      );
+      it.style.display = show ? '' : 'none';
+      if (show) visible++;
     });
+    if (noResults) noResults.hidden = visible > 0;
+  }
 
-    channelBtns.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        activeChannel = btn.getAttribute('data-channel');
-        setActive(channelBtns, btn);
-        apply();
-      });
+  function setActive(group: NodeListOf<HTMLElement>, btn: HTMLElement) {
+    group.forEach((b) => {
+      const on = b === btn;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.style.borderColor = on ? 'var(--color-accent)' : 'var(--border)';
+      b.style.color = on ? 'var(--color-accent)' : 'var(--fg-muted)';
     });
+  }
 
-    if (search) {
-      search.addEventListener('input', () => {
-        query = search.value.trim().toLowerCase();
-        apply();
-      });
-    }
-  })();
+  btns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      criteria.type = (btn.getAttribute('data-filter') ?? 'all') as FilterCriteria['type'];
+      setActive(btns, btn);
+      apply();
+    });
+  });
+
+  channelBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      criteria.channel = btn.getAttribute('data-channel') ?? 'all';
+      setActive(channelBtns, btn);
+      apply();
+    });
+  });
+
+  if (search) {
+    search.addEventListener('input', () => {
+      criteria.query = search.value.trim().toLowerCase();
+      apply();
+    });
+  }
 </script>

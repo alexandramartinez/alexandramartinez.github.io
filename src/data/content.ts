@@ -5626,8 +5626,113 @@ export const content: ContentItem[] = [
   },
 ];
 
-/** All content, newest first. Empty dates sort last. */
-export function getAllContent(): ContentItem[] {
-  return [...content].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+// --- Catalog query interface -------------------------------------------------
+//
+// The catalog is the full chronological body of content: the hand-maintained
+// `content` list above, merged with the curated link entries, newest first.
+// `featured` is the separate hand-ordered homepage showcase. Pages inject the
+// raw collection entries (the only `astro:content` dependency stays at the page
+// seam); this module owns the merge, the date mapping, and the facet
+// derivation, so all of it is testable with plain arrays. See CONTEXT.md.
+
+/** Newest first; empty dates sort last. */
+function byDateDesc(a: ContentItem, b: ContentItem): number {
+  return (b.date || '').localeCompare(a.date || '');
+}
+
+/** The shape of a `links` collection entry this module needs to map one. */
+export interface LinkEntry {
+  id?: string;
+  data: {
+    type: ContentType;
+    title: string;
+    url: string;
+    source: string;
+    date?: Date;
+    description?: string;
+  };
+}
+
+/** The shape of a `featured` collection entry this module needs to map one. */
+export interface FeaturedEntry {
+  data: {
+    type: ContentType;
+    title: string;
+    url: string;
+    source?: string;
+    blurb: string;
+    date?: Date;
+    thumbnail?: string;
+    duration?: string;
+    stars?: number;
+    forks?: number;
+    order?: number;
+  };
+}
+
+/** Map a `links` collection entry to a content item. */
+export function linkEntryToItem(entry: LinkEntry): ContentItem {
+  return {
+    type: entry.data.type,
+    title: entry.data.title,
+    url: entry.data.url,
+    date: entry.data.date ? entry.data.date.toISOString() : '',
+    source: entry.data.source,
+    description: entry.data.description,
+  };
+}
+
+/** Map a `featured` collection entry to a content item. */
+export function featuredEntryToItem(entry: FeaturedEntry): ContentItem {
+  return {
+    type: entry.data.type,
+    title: entry.data.title,
+    url: entry.data.url,
+    date: entry.data.date ? entry.data.date.toISOString() : '',
+    source: entry.data.source ?? '',
+    description: entry.data.blurb,
+    thumbnail: entry.data.thumbnail,
+    meta: {
+      ...(entry.data.duration ? { duration: entry.data.duration } : {}),
+      ...(entry.data.stars !== undefined ? { stars: entry.data.stars } : {}),
+      ...(entry.data.forks !== undefined ? { forks: entry.data.forks } : {}),
+    },
+  };
+}
+
+/**
+ * The full catalog: hand-maintained content plus curated link entries, newest
+ * first. Seeded `_example` link entries are dropped. Pass the `links`
+ * collection entries; omit for the live list alone.
+ */
+export function getCatalog(linkEntries: LinkEntry[] = []): ContentItem[] {
+  const linkItems = linkEntries
+    .filter((e) => !(e.id ?? '').startsWith('_example'))
+    .map(linkEntryToItem);
+  return [...content, ...linkItems].sort(byDateDesc);
+}
+
+/** The newest `n` items from the hand-maintained list (not link entries). */
+export function getLatest(n: number): ContentItem[] {
+  return [...content].sort(byDateDesc).slice(0, n);
+}
+
+/** The hand-ordered featured showcase, lower `order` first. */
+export function getFeatured(featuredEntries: FeaturedEntry[]): ContentItem[] {
+  return [...featuredEntries]
+    .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
+    .map(featuredEntryToItem);
+}
+
+/**
+ * The distinct content types and sources present in a set of items, used to
+ * build the portfolio filter bar. Unordered: callers apply their own display
+ * ordering. See CONTEXT.md ("facet").
+ */
+export function facets(items: ContentItem[]): { types: ContentType[]; sources: string[] } {
+  return {
+    types: [...new Set(items.map((i) => i.type))],
+    sources: [...new Set(items.map((i) => i.source))],
+  };
 }
 
