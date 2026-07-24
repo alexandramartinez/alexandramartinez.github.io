@@ -83,7 +83,7 @@ export const content: ContentItem[] = [
     description: "How modern AI tools speed up MuleSoft development, easing common pain points like writing API specs, debugging, learning DataWeave, and creating MUnit tests and docs. Covers Cursor, CurieTech AI, and MuleSoft's own AI initiatives.",
     thumbnail: "https://image.slidesharecdn.com/agentforceworldtourtoronto25-superchargemulesoftdevelopmentwithmodernaitools-250630140239-b406e25f/85/Agentforce-World-Tour-Toronto-25-Supercharge-MuleSoft-Development-with-Modern-AI-Tools-1-320.jpg",
   },
-  // YouTube videos (314)
+  // YouTube videos (315)
   // Salesforce Developers channel videos (12)
   {
     type: "video",
@@ -601,6 +601,13 @@ export const content: ContentItem[] = [
     url: "https://www.youtube.com/watch?v=KkmLvZ20rf8",
     date: "2021-10-27T19:04:24.000Z",
     source: "MuleSoft",
+  },
+  {
+    type: "video",
+    title: "How to Enable MuleSoft Vibes in VS Code (Agentforce, 100% Free)",
+    url: "https://www.youtube.com/watch?v=s0k7z6VoDuI",
+    date: "2026-07-21T11:30:25.000Z",
+    source: "ProstDev",
   },
   {
     type: "video",
@@ -3121,7 +3128,14 @@ export const content: ContentItem[] = [
     description: "Juan guides us through the installation steps for Runtime Fabric in AWS and a manual installation in Huawei Cloud. This video was recorded from the Online Spanish MuleSoft Meetup #2 event that took pl",
   },
 
-  // YouTube Shorts (16)
+  // YouTube Shorts (17)
+  {
+    type: "short",
+    title: "3 AIs mocked MuleSoft data, only 2 made it last 👀 #mulesoft",
+    url: "https://www.youtube.com/shorts/07RgkWzH_s8",
+    date: "2026-07-16T13:00:09.000Z",
+    source: "ProstDev",
+  },
   {
     type: "short",
     title: "using docker compose to create an instant mysql installation locally! #mulesoft #acb #docker #mysql",
@@ -3592,7 +3606,34 @@ export const content: ContentItem[] = [
     description: "Learn how to set up a GitHub Actions pipeline to work with your MFA-enabled account from Anypoint Platform.",
   },
 
-  // MuleSoft blog posts (20). Source label consolidated to "MuleSoft".
+  // MuleSoft blog posts (23). Source label consolidated to "MuleSoft".
+  {
+    type: "article",
+    title: "How MuleSoft Skills Give AI Agents Multi-Step Workflow Recipes",
+    url: "https://blogs.mulesoft.com/dev-guides/how-mulesoft-skills-give-ai-agents-multi-step-workflow-recipes",
+    thumbnail: "https://blogs.mulesoft.com/wp-content/uploads/2026/07/mule-skills-workflow-recipes.png",
+    date: "2026-07-23T21:30:00.000Z",
+    source: "MuleSoft",
+    description: "Learn how MuleSoft Skills encode multi-step API workflows into structured recipes that prevent errors and keep AI agents reliable.",
+  },
+  {
+    type: "article",
+    title: "The Developer’s Guide to Headless MuleSoft",
+    url: "https://blogs.mulesoft.com/dev-guides/guide-to-headless-mulesoft",
+    thumbnail: "https://blogs.mulesoft.com/wp-content/uploads/2026/07/dev-guide-headless.png",
+    date: "2026-07-23T20:00:00.000Z",
+    source: "MuleSoft",
+    description: "Learn how to programmatically control MuleSoft using MCP servers, REST APIs, Skills, and Terraform to automate API lifecycles and platform workflows.",
+  },
+  {
+    type: "article",
+    title: "MuleSoft Developer Hub vs. MCP Server vs. IDE Skills: Which AI Surface Do You Actually Need?",
+    url: "https://blogs.mulesoft.com/dev-guides/mulesoft-developer-hub-vs-mcp-server-vs-ide-skills",
+    thumbnail: "https://blogs.mulesoft.com/wp-content/uploads/2026/07/dev-hub-vs-mcp-vs-ide.png",
+    date: "2026-07-20T19:00:00.000Z",
+    source: "MuleSoft",
+    description: "Compare MuleSoft Developer Hub, Platform MCP Server, and IDE Skills to choose the right AI surface for your automation and Mule development needs.",
+  },
   {
     type: "article",
     title: "Create an AsyncAPI With MuleSoft and Salesforce Platform Events",
@@ -4345,7 +4386,25 @@ export const content: ContentItem[] = [
     meta: { stars: 0, language: "" },
   },
 
-  // ProstDev Blog (141)
+  // ProstDev Blog (143)
+  {
+    type: "article",
+    title: "No fx button on an ACB field? Set a dynamic value in the XML",
+    url: "https://prostdev.com/post/acb-field-no-fx-button-set-dynamic-value-with-xml",
+    thumbnail: "https://prostdev.com/og/post/acb-field-no-fx-button-set-dynamic-value-with-xml.png",
+    date: "2026-07-24T00:00:00.000Z",
+    source: "ProstDev",
+    description: "A field in Anypoint Code Builder has no fx button? Set the dynamic value in the flow XML with a #[] expression, and read properties with Mule::p() instead of ${}.",
+  },
+  {
+    type: "article",
+    title: "How to Enable MuleSoft Vibes in VS Code",
+    url: "https://prostdev.com/post/enable-mulesoft-vibes-in-vs-code",
+    thumbnail: "https://prostdev.com/og/post/enable-mulesoft-vibes-in-vs-code.png",
+    date: "2026-07-21T00:00:00.000Z",
+    source: "ProstDev",
+    description: "A step-by-step guide to turning on MuleSoft Vibes, the AI assistant, in VS Code: install the Anypoint Extension Pack, connect a free Salesforce Developer org, enable Agentforce, and start chatting.",
+  },
   {
     type: "article",
     title: "3 AIs Design API-Led Connectivity in MuleSoft: Claude vs CurieTech vs MuleSoft Vibes",

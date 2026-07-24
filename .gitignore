@@ -29,3 +29,6 @@ settings.local.json
 
 # issue body written by scripts/sync-prostdev.mjs (CI artifact, not committed)
 .github/sync-issue.md
+
+# issue body written by scripts/sync-mulesoft.mjs (CI artifact, not committed)
+.github/mulesoft-sync-issue.md
