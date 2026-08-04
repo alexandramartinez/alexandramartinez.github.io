@@ -8,15 +8,11 @@ import BackToTop from '../components/BackToTop.astro';
 interface Props {
   title?: string;
   description?: string;
-  /** "books" re-skins the page to the calmer bookkeeping zone. */
-  zone?: 'default' | 'books';
-  /** Hide the global content-brand nav/footer (e.g. focused bookkeeping page). */
   ogImage?: string;
 }
 const {
   title,
   description = site.description,
-  zone = 'default',
   ogImage = '/og-default.png',
 } = Astro.props;
 
@@ -25,7 +21,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
 ---
 
 <!doctype html>
-<html lang="en" data-zone={zone === 'books' ? 'books' : undefined}>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,9 +46,11 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, site.url).href} />
 
-    <!-- Set theme before paint to avoid flash -->
+    <!-- Set theme + JS flag before paint. .has-js gates scroll-reveal so no-JS
+         users never get stuck with hidden content (it starts visible for them). -->
     <script is:inline>
       (function () {
+        document.documentElement.classList.add('has-js');
         try {
           var t = localStorage.getItem('theme');
           if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
@@ -73,5 +71,31 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     </main>
     <Footer />
     <BackToTop />
+
+    <!-- Scroll reveal: unhide [data-reveal] elements as they enter view (once).
+         reduced-motion or a missing observer -> reveal everything immediately. -->
+    <script is:inline>
+      (function () {
+        var els = document.querySelectorAll('[data-reveal]');
+        if (!els.length) return;
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce || !('IntersectionObserver' in window)) {
+          els.forEach(function (el) { el.classList.add('is-visible'); });
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+        );
+        els.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
   </body>
 </html>

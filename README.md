@@ -6,8 +6,6 @@ Personal portfolio for Alex Martinez. Fast, content-first, hand-maintained.
 builds and deploys automatically (see [Deploy](#deploy)).
 
 - **Primary brand (content / devrel):** Alex Martinez. Homepage, `/portfolio`.
-- **Bookkeeping (client audience):** `/bookkeeping`, a calmer trust-first zone branded
-  "Alex Amkins" with a name bridge back to Alex Martinez.
 - **Startup (CleaningPal):** a single footnote, never a section.
 
 Built with **Astro 7** (static, zero-JS by default) + **Tailwind v4**, deployed to
@@ -38,7 +36,6 @@ no ampersands).
 Identity and links live in **`src/config.ts`**:
 
 - **Socials** (`socials`): links shown in nav/footer.
-- **Bookkeeping** (`bookkeeping`): certs, Fiverr URL, ProAdvisor URL, contact email.
 - **Startup** (`startup`) and **identity** (`site`).
 
 Curated content collections (markdown, no code needed):
@@ -84,4 +81,3 @@ Nice-to-haves, not blockers (the site is live without them):
    (currently only `/work` and `/about` are mapped; the GitBook slugs are still a TODO).
 3. **Replace the example link entries** in `src/content/links/` (`_example-*.md`) with real
    MuleSoft / Salesforce Developers posts, or delete them.
-4. **Bookkeeping ProAdvisor link**: set `bookkeeping.proAdvisor` in `src/config.ts` to show it.

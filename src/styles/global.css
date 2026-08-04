@@ -3,8 +3,6 @@
 /*
   Design tokens for alexmartinez.ca
   Direction: bold modern / brand-led. Dark-first, vivid accent, oversized type.
-  The bookkeeping zone re-skins these tokens to a calmer, trust-first variant
-  via the [data-zone="books"] scope at the bottom of this file.
 */
 
 @theme {
@@ -108,6 +106,71 @@ body {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+  /* Never leave scroll-reveal content stuck hidden if the observer is skipped. */
+  .has-js [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ----------------------------------------------------------------------
+   Motion: entrance, scroll-reveal, and ambient. Kept subtle and cohesive
+   (one soft easing, short distances). All scroll-reveal is gated behind
+   .has-js (set in <head>) so no-JS users always get fully visible content,
+   and the reduced-motion block above forces everything visible.
+---------------------------------------------------------------------- */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(1.25rem); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes glow-drift {
+  from { background-position: 0% 0%; }
+  to   { background-position: 100% 100%; }
+}
+@keyframes gradient-pan {
+  to { background-position: 200% center; }
+}
+
+/* Load-in: above-the-fold bits play once on load (no observer). fill-mode both
+   holds the hidden start state through any animation-delay, so no flash. */
+.animate-in { animation: fade-up 0.7s var(--ease-out-soft) both; }
+.animate-pop { animation: pop-in 0.5s var(--ease-out-soft) both; }
+
+/* Scroll reveal: the observer in Base.astro adds .is-visible as each element
+   enters the viewport. */
+.has-js [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 0.6s var(--ease-out-soft),
+    transform 0.6s var(--ease-out-soft);
+}
+.has-js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+/* Cascade cards row by row (assumes up to 3 columns): each row's items trail
+   the first. Bounded, so item 50 never waits seconds. */
+.has-js .reveal-grid > *:nth-child(3n + 2) { transition-delay: 70ms; }
+.has-js .reveal-grid > *:nth-child(3n + 3) { transition-delay: 140ms; }
+
+/* Ambient hero glow: the two radial pools drift slowly. background-size 200%
+   gives the percentage-positioned pools room to move. */
+.hero-glow {
+  background-size: 200% 200%;
+  animation: glow-drift 24s ease-in-out infinite alternate;
+}
+
+/* Gentle shimmer across gradient text (violet <-> cyan hue drift). */
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .text-gradient {
+    background-size: 200% auto;
+    animation: gradient-pan 9s linear infinite alternate;
   }
 }
 
@@ -259,35 +322,3 @@ body {
 :root[data-theme='light'] .type-badge[data-type='stream']  { --badge-text: #843555; --badge-fill: #fde9f1; }
 :root[data-theme='light'] .type-badge[data-type='podcast'] { --badge-text: #7a5011; --badge-fill: #fbf0dd; }
 :root[data-theme='light'] .type-badge[data-type='slides']  { --badge-text: #3d6b26; --badge-fill: #e9f6e0; }
-
-/* ----------------------------------------------------------------------
-   Bookkeeping zone: calmer, higher-trust re-skin of the same token system.
-   Cooler/quieter accent, lighter by default, more whitespace, less motion.
-   Applied by setting data-zone="books" on the layout root.
----------------------------------------------------------------------- */
-[data-zone='books'] {
-  /* Trustworthy green, financial-services tone. Theme-aware so the accent
-     clears WCAG AA contrast on both the near-black and near-white surfaces:
-     a single green can't pass on both, so dark/light each get their own. */
-  --color-accent: #34c785; /* bright green for dark mode (9.0:1 on bg) */
-  --color-accent-2: #4f9bff; /* blue secondary */
-  --color-accent-ink: #07140d; /* dark ink on the bright green button (8.7:1) */
-  --gradient-end: #4f9bff; /* green → blue gradient in the books zone */
-}
-
-[data-zone='books'][data-theme='light'] {
-  --color-accent: #15703f; /* deep green for light mode (5.9:1 on bg) */
-  --color-accent-ink: #ffffff; /* white ink on the deep green button (6.1:1) */
-  --gradient-end: #1f6feb; /* deeper blue stays readable on near-white */
-}
-
-/* Same light-mode greens when data-zone="books" is set on a nested container
-   (not <html>), as the /resume Bookkeeping tab does. The compound selector
-   above only matches when both attributes sit on the same element; this one
-   covers the scoped case. The dark variant needs no companion because the base
-   [data-zone='books'] rule already matches any element. */
-:root[data-theme='light'] [data-zone='books'] {
-  --color-accent: #15703f;
-  --color-accent-ink: #ffffff;
-  --gradient-end: #1f6feb;
-}

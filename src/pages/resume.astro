@@ -14,13 +14,12 @@ import {
   summaries,
 } from '../data/resume';
 
-// Tabs: full | compact | devrel | swe | books.
+// Tabs: full | compact | devrel | swe.
 const tabs = [
   { id: 'full', label: 'Full resume' },
   { id: 'compact', label: 'Compact' },
   { id: 'devrel', label: 'DevRel / Content' },
   { id: 'swe', label: 'Software engineering' },
-  { id: 'books', label: 'Bookkeeping' },
 ];
 
 // Right-hand "on this page" jump list. Each id matches a .resume-section below;
@@ -41,14 +40,14 @@ const sectionNav = [
 
 <Base
   title="Resume"
-  description="The full resume of Alex Martinez: developer advocacy, software engineering, and bookkeeping. View it full, compact, or tailored to an audience."
+  description="The full resume of Alex Martinez: developer advocacy and software engineering. View it full, compact, or tailored to an audience."
 >
   <PageHeader eyebrow="Resume">
     <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
       My <span class="text-gradient">resume</span>
     </h1>
     <p class="mt-3 max-w-2xl text-lg" style="color: var(--fg-muted)">
-      A decade across software engineering, developer relations, and bookkeeping.
+      A decade across software engineering and developer relations.
       Pick the view that fits: the full history, a compact scan, or one tailored
       to what you came for.
     </p>
@@ -82,7 +81,7 @@ const sectionNav = [
            cannot do per-tab text). First section, so no mt-14 on the heading. -->
       <div id="summary" class="resume-section scroll-mt-24">
         <h2 class="mb-1 text-xl font-bold">
-          Summary<span data-name-suffix></span>
+          Summary
         </h2>
         <hr class="gradient-divider mb-8 mt-3" />
         <p id="summary-text" class="max-w-2xl text-base leading-relaxed" style="color: var(--fg-muted)"></p>
@@ -331,20 +330,16 @@ const sectionNav = [
   is:inline
   define:vars={{
     summaries: summaries,
-    martinez: 'Alex Martinez',
-    amkins: 'Alex Amkins',
   }}
 >
   (function () {
-    // Each tab: which track to show ('all' = every role), whether to trim to
-    // the compact set (hide role bullets and data-compact-hide items), and
-    // whether to apply the green books zone.
+    // Each tab: which track to show ('all' = every role) and whether to trim to
+    // the compact set (hide role bullets and data-compact-hide items).
     const MODES = {
-      full: { track: 'all', compact: false, books: false },
-      compact: { track: 'all', compact: true, books: false },
-      devrel: { track: 'devrel', compact: false, books: false },
-      swe: { track: 'swe', compact: false, books: false },
-      books: { track: 'books', compact: false, books: true },
+      full: { track: 'all', compact: false },
+      compact: { track: 'all', compact: true },
+      devrel: { track: 'devrel', compact: false },
+      swe: { track: 'swe', compact: false },
     };
 
     const tabs = document.querySelectorAll('.resume-tab');
@@ -359,9 +354,7 @@ const sectionNav = [
     // with no visible pill, so no orphan sub-heading shows.
     const skillCategories = document.querySelectorAll('[data-skill-category]');
     const sections = document.querySelectorAll('.resume-section');
-    const body = document.getElementById('resume-body');
     const summaryText = document.getElementById('summary-text');
-    const nameSuffixes = document.querySelectorAll('[data-name-suffix]');
     const tocLinks = document.querySelectorAll('.resume-toc-link');
 
     function setActive(btn) {
@@ -420,14 +413,6 @@ const sectionNav = [
         section.style.display = hasVisible ? '' : 'none';
         const link = document.querySelector('[data-toc="' + section.id + '"]');
         if (link) link.parentElement.style.display = hasVisible ? '' : 'none';
-      });
-
-      // Books zone re-skin + name.
-      const suffix = mode.books ? ' (' + amkins + ')' : '';
-      if (mode.books) body.setAttribute('data-zone', 'books');
-      else body.removeAttribute('data-zone');
-      nameSuffixes.forEach((el) => {
-        el.textContent = suffix;
       });
 
       // Per-tab summary. Every tab has an entry, so the Summary section is

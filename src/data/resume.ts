@@ -830,7 +830,7 @@ export const skills: SkillCategory[] = [
 // Professional summary shown atop every tab. Keyed by tab id (not Track) so Full
 // and Compact get a summary too. The resume.astro script swaps the text per tab
 // (data-tracks cannot do per-tab text). All five keys are required.
-export type SummaryTab = 'full' | 'compact' | 'devrel' | 'swe' | 'books';
+export type SummaryTab = 'full' | 'compact' | 'devrel' | 'swe';
 
 export const summaries: Record<SummaryTab, string> = {
   full:
@@ -841,6 +841,4 @@ export const summaries: Record<SummaryTab, string> = {
     'Senior Developer Advocate at Salesforce (MuleSoft) and founder of a bilingual tech-content platform whose YouTube channel has drawn over 290,000 views and 26,000 hours of watch time across 330-plus videos. Speaks at conferences across North America, produces written and video tutorials, and coaches new authors, 20 to date, several now recognized voices in the MuleSoft community. Authored a Packt book on MuleSoft for Salesforce developers.',
   swe:
     'Software engineer with a decade of MuleSoft and integration work: REST and SOAP APIs, API-Led connectivity, and Java, delivered for healthcare, logistics, airline, and finance clients. Comfortable building with code, from enterprise integrations to a live booking site.',
-  books:
-    'QuickBooks Online ProAdvisor (Advanced) certified bookkeeper for Canadian small businesses, with hands-on books work at CleaningPal: bookkeeping, invoicing, and financial record keeping.',
 };

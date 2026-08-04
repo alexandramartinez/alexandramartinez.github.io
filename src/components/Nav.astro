@@ -23,7 +23,7 @@ const isActive = (href: string) =>
               <a
                 href={item.href}
                 aria-current={isActive(item.href) ? 'page' : undefined}
-                class="rounded-full px-3 py-2 text-sm font-medium transition-colors"
+                class="nav-link relative rounded-full px-3 py-2 text-sm font-medium transition-colors hover:text-[var(--color-accent)]"
                 style={
                   isActive(item.href)
                     ? 'color: var(--color-accent)'
@@ -75,3 +75,25 @@ const isActive = (href: string) =>
     </div>
   </nav>
 </header>
+
+<style>
+  /* Animated accent underline that grows from the left on hover, and stays
+     under the current page. Centered under the label (inset matches px-3). */
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.35rem;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.28s var(--ease-out-soft);
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+</style>

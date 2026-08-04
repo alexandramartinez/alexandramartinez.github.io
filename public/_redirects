@@ -5,6 +5,7 @@
 # Renamed/removed routes. Preserve old links and SEO.
 /work                /portfolio   301
 /about               /            301
+/bookkeeping         /            301
 
 # TODO: map real legacy GitBook paths once the old URL list is confirmed.
 # Examples (uncomment + adjust to the actual old slugs):

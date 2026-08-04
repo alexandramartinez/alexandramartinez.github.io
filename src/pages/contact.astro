@@ -1,40 +1,92 @@
 ---
 import Base from '../layouts/Base.astro';
-import Socials from '../components/Socials.astro';
-import Button from '../components/Button.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { socials, site } from '../config';
+import { socialIcons } from '../lib/socialIcons';
+
+// The channels shown as cards: every social plus a direct email. Each carries
+// the blurb and CTA label rendered on its card.
+const channels = [
+  {
+    kind: 'linkedin',
+    label: 'LinkedIn',
+    href: socials.find((s) => s.kind === 'linkedin')?.href,
+    blurb: 'Best for collaborations, speaking invites, and staying in touch.',
+    cta: 'Connect',
+  },
+  {
+    kind: 'email',
+    label: 'Email',
+    href: `mailto:${site.email}`,
+    blurb: 'Prefer email? Reach me directly, I read every message.',
+    cta: site.email,
+  },
+  {
+    kind: 'youtube',
+    label: 'YouTube',
+    href: socials.find((s) => s.kind === 'youtube')?.href,
+    blurb: 'Tutorials and talks on MuleSoft, AI, and building with Claude.',
+    cta: 'Watch',
+  },
+  {
+    kind: 'github',
+    label: 'GitHub',
+    href: socials.find((s) => s.kind === 'github')?.href,
+    blurb: 'Sample projects, demos, and the code behind the content.',
+    cta: 'Browse',
+  },
+  {
+    kind: 'discord',
+    label: 'Discord',
+    href: socials.find((s) => s.kind === 'discord')?.href,
+    blurb: 'Say hi, ask a question, or just hang out in the community.',
+    cta: 'Message',
+  },
+].filter((c) => c.href);
+
+const isExternal = (href: string) => !href.startsWith('mailto:');
 ---
 
-<Base title="Contact" description="Get in touch with Alex Martinez for content, collaboration, speaking, or bookkeeping.">
+<Base title="Contact" description="Get in touch with Alex Martinez for content, collaboration, or speaking.">
   <PageHeader eyebrow="Contact">
     <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">Let's <span class="text-gradient">talk.</span></h1>
     <p class="mt-4 max-w-xl text-lg" style="color: var(--fg-muted)">
-      Content collaborations, speaking, developer advocacy, or a bookkeeping inquiry. Pick
-      whatever's easiest.
+      Content collaborations, speaking, or developer advocacy. Pick whatever's easiest.
     </p>
   </PageHeader>
 
   <section class="mx-auto max-w-6xl px-5 py-12 sm:py-16">
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-      <div class="gradient-frame rounded-[var(--radius-card)] p-6">
-        <h2 class="text-lg font-semibold">For developers and content</h2>
-        <p class="mt-2 text-sm" style="color: var(--fg-muted)">
-          Find me on social, or reach out on LinkedIn for collaborations and speaking.
-        </p>
-        <div class="mt-4">
-          <Socials />
-        </div>
-      </div>
-
-      <div class="gradient-frame rounded-[var(--radius-card)] p-6">
-        <h2 class="text-lg font-semibold">For bookkeeping clients</h2>
-        <p class="mt-2 text-sm" style="color: var(--fg-muted)">
-          Looking for a bookkeeper? See services and how to hire me.
-        </p>
-        <div class="mt-4">
-          <Button href="/bookkeeping" variant="secondary">Bookkeeping services</Button>
-        </div>
-      </div>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        channels.map((c) => (
+          <a
+            href={c.href}
+            {...(isExternal(c.href!) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            class="group gradient-frame flex flex-col gap-4 rounded-[var(--radius-card)] p-6 transition-transform hover:-translate-y-0.5"
+          >
+            <span
+              class="inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors group-hover:text-[var(--color-accent)]"
+              style="background: var(--bg-elevated); color: var(--fg-muted)"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d={socialIcons[c.kind]} />
+              </svg>
+            </span>
+            <div>
+              <h2 class="text-lg font-semibold">{c.label}</h2>
+              <p class="mt-1 text-sm" style="color: var(--fg-muted)">
+                {c.blurb}
+              </p>
+            </div>
+            <span
+              class="mt-auto text-sm font-medium transition-colors group-hover:underline"
+              style="color: var(--color-accent)"
+            >
+              {c.cta} <span aria-hidden="true">→</span>
+            </span>
+          </a>
+        ))
+      }
     </div>
   </section>
 </Base>

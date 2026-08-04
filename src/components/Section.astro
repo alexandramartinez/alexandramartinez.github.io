@@ -9,7 +9,7 @@ interface Props {
 const { title, eyebrow, id, href, hrefLabel = 'View all' } = Astro.props;
 ---
 
-<section id={id} class="mx-auto max-w-6xl px-5 py-12 sm:py-16">
+<section id={id} class="mx-auto max-w-6xl px-5 py-12 sm:py-16" data-reveal>
   {
     (title || eyebrow) && (
       <div class="mb-8 flex items-end justify-between gap-4">

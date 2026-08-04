@@ -13,10 +13,12 @@ const { eyebrow } = Astro.props;
 
 <section class="hero-glow">
   <div class="mx-auto max-w-6xl px-5 pb-10 pt-16">
-    <p class="mb-2 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]" style="color: var(--color-accent)">
+    <p class="animate-in mb-2 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]" style="color: var(--color-accent); animation-delay: 0.05s">
       <span class="gradient-bar" aria-hidden="true"></span>
       {eyebrow}
     </p>
-    <slot />
+    <div class="animate-in" style="animation-delay: 0.14s">
+      <slot />
+    </div>
   </div>
 </section>

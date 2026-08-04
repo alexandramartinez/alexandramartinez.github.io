@@ -5,12 +5,12 @@
 <button
   id="theme-toggle"
   type="button"
-  class="inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors"
+  class="group inline-flex h-9 w-9 items-center justify-center rounded-full border transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
   style="border-color: var(--border); color: var(--fg-muted)"
   aria-label="Switch to light theme"
 >
   <svg
-    class="hidden h-4 w-4"
+    class="theme-icon hidden h-4 w-4"
     data-icon="moon"
     viewBox="0 0 24 24"
     fill="none"
@@ -21,7 +21,7 @@
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
   </svg>
   <svg
-    class="h-4 w-4"
+    class="theme-icon h-4 w-4"
     data-icon="sun"
     viewBox="0 0 24 24"
     fill="none"
@@ -35,6 +35,19 @@
     ></path>
   </svg>
 </button>
+
+<style>
+  /* Playful rotate on hover; the sun spins one way, the moon tips back. */
+  .theme-icon {
+    transition: transform 0.5s var(--ease-out-soft);
+  }
+  .group:hover [data-icon='sun'] {
+    transform: rotate(90deg);
+  }
+  .group:hover [data-icon='moon'] {
+    transform: rotate(-18deg);
+  }
+</style>
 
 <script is:inline>
   // Runs before paint (also see the pre-hydration script in Base.astro head).

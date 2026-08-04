@@ -3128,7 +3128,21 @@ export const content: ContentItem[] = [
     description: "Juan guides us through the installation steps for Runtime Fabric in AWS and a manual installation in Huawei Cloud. This video was recorded from the Online Spanish MuleSoft Meetup #2 event that took pl",
   },
 
-  // YouTube Shorts (17)
+  // YouTube Shorts (19)
+  {
+    type: "short",
+    title: "This AI wrote 41 MUnit tests nobody asked for #MuleSoft #MUnit",
+    url: "https://www.youtube.com/shorts/Ntnv80TRM1k",
+    date: "2026-08-04T13:30:17.000Z",
+    source: "ProstDev",
+  },
+  {
+    type: "short",
+    title: "4 APIs beat 5: MuleSoft API design done right #MuleSoft #APIled",
+    url: "https://www.youtube.com/shorts/BgYoGJv5jyQ",
+    date: "2026-07-28T13:30:23.000Z",
+    source: "ProstDev",
+  },
   {
     type: "short",
     title: "3 AIs mocked MuleSoft data, only 2 made it last 👀 #mulesoft",
@@ -3606,7 +3620,25 @@ export const content: ContentItem[] = [
     description: "Learn how to set up a GitHub Actions pipeline to work with your MFA-enabled account from Anypoint Platform.",
   },
 
-  // MuleSoft blog posts (23). Source label consolidated to "MuleSoft".
+  // MuleSoft blog posts (24). Source label consolidated to "MuleSoft".
+  {
+    type: "article",
+    title: "MuleSoft Platform MCP Server: Turn API Operations Into Natural Language",
+    url: "https://blogs.mulesoft.com/news/mulesoft-platform-mcp-server-turn-api-operations-into-natural-language",
+    thumbnail: "https://blogs.mulesoft.com/wp-content/uploads/2026/08/MuleSoft-Platform-MCP-Server.png",
+    date: "2026-08-03T22:00:00.000Z",
+    source: "MuleSoft",
+    description: "Learn how MuleSoft’s Platform MCP Server turns complex API operations into natural language queries for faster troubleshooting and governance.",
+  },
+  {
+    type: "article",
+    title: "Enhanced Experience vs. Anypoint Platform: When to Use Which",
+    url: "https://blogs.mulesoft.com/news/when-to-use-enhanced-experience-vs-anypoint-platform",
+    thumbnail: "https://blogs.mulesoft.com/wp-content/uploads/2026/07/Enhanced-Experience-vs.-Anypoint-Platform-When-to-Use-Which.png",
+    date: "2026-07-28T19:00:00.000Z",
+    source: "MuleSoft",
+    description: "Learn when to use Anypoint Platform for building APIs versus the Enhanced Experience for portfolio governance, AI agents, and cost optimization.",
+  },
   {
     type: "article",
     title: "How MuleSoft Skills Give AI Agents Multi-Step Workflow Recipes",
@@ -3615,15 +3647,6 @@ export const content: ContentItem[] = [
     date: "2026-07-23T21:30:00.000Z",
     source: "MuleSoft",
     description: "Learn how MuleSoft Skills encode multi-step API workflows into structured recipes that prevent errors and keep AI agents reliable.",
-  },
-  {
-    type: "article",
-    title: "The Developer’s Guide to Headless MuleSoft",
-    url: "https://blogs.mulesoft.com/dev-guides/guide-to-headless-mulesoft",
-    thumbnail: "https://blogs.mulesoft.com/wp-content/uploads/2026/07/dev-guide-headless.png",
-    date: "2026-07-23T20:00:00.000Z",
-    source: "MuleSoft",
-    description: "Learn how to programmatically control MuleSoft using MCP servers, REST APIs, Skills, and Terraform to automate API lifecycles and platform workflows.",
   },
   {
     type: "article",
@@ -4386,7 +4409,25 @@ export const content: ContentItem[] = [
     meta: { stars: 0, language: "" },
   },
 
-  // ProstDev Blog (143)
+  // ProstDev Blog (145)
+  {
+    type: "article",
+    title: "ACB deploys your app with the local port instead of 8092? Your properties are resolved at build time",
+    url: "https://prostdev.com/post/acb-cloudhub-wrong-port-force-parse-config-xmls",
+    thumbnail: "https://prostdev.com/og/post/acb-cloudhub-wrong-port-force-parse-config-xmls.png",
+    date: "2026-08-03T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Deploy to CloudHub from Anypoint Code Builder and the listener uses your local ${https.private.port} instead of 8092? ACB bakes the placeholder in at build time against your local config. Force a...",
+  },
+  {
+    type: "article",
+    title: "503s after adding the JWT Validation policy on an Omni Gateway MCP server? The \"optional\" JWKS fields aren't optional",
+    url: "https://prostdev.com/post/omni-gateway-jwt-validation-503-jwks-optional-fields",
+    thumbnail: "https://prostdev.com/og/post/omni-gateway-jwt-validation-503-jwks-optional-fields.png",
+    date: "2026-08-02T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Securing an MCP server on Omni Gateway with the JWT Validation policy and getting only 503s with no logs? The new-UI JWKS Caching TTL and connection timeout fields are marked optional but the policy...",
+  },
   {
     type: "article",
     title: "No fx button on an ACB field? Set a dynamic value in the XML",
