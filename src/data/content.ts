@@ -3620,7 +3620,16 @@ export const content: ContentItem[] = [
     description: "Learn how to set up a GitHub Actions pipeline to work with your MFA-enabled account from Anypoint Platform.",
   },
 
-  // MuleSoft blog posts (24). Source label consolidated to "MuleSoft".
+  // MuleSoft blog posts (25). Source label consolidated to "MuleSoft".
+  {
+    type: "article",
+    title: "How to Connect the MuleSoft Platform MCP Server to Claude Code",
+    url: "https://blogs.mulesoft.com/dev-guides/how-to-connect-the-mulesoft-platform-mcp-server-to-claude-code",
+    thumbnail: "https://blogs.mulesoft.com/wp-content/uploads/2026/07/rtf-support-oke.png",
+    date: "2026-08-10T23:32:22.000Z",
+    source: "MuleSoft",
+    description: "Discover the final article in the series about Headless MuleSoft for developers",
+  },
   {
     type: "article",
     title: "MuleSoft Platform MCP Server: Turn API Operations Into Natural Language",
