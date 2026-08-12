@@ -3520,7 +3520,16 @@ export const content: ContentItem[] = [
     description: "Despite the title, this book is not only for Salesforce developers. Anyone who wants to learn MuleSoft can use it to get started with the various products, plus tips along the way.",
   },
 
-  // Salesforce (11)
+  // Salesforce (12)
+  {
+    type: "article",
+    title: "Extending Agentforce with External MCP Tools via MuleSoft",
+    url: "https://developer.salesforce.com/blogs/2026/08/extending-agentforce-with-external-mcp-tools-via-mulesoft",
+    thumbnail: "https://d259t2jj6zp7qm.cloudfront.net/images/20260810101459/DoubleHeadshot-6.png?w=1778",
+    date: "2026-08-11T00:00:00.000Z",
+    source: "Salesforce",
+    description: "Deploy an OAuth-secured MCP server on MuleSoft CloudHub, register it in Salesforce, and let Agentforce agents execute external tools without custom code.",
+  },
   {
     type: "article",
     title: "LLM Open Connector + MuleSoft + Ollama",
