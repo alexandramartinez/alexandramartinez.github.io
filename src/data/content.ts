@@ -4466,6 +4466,15 @@ export const content: ContentItem[] = [
   },
   {
     type: "article",
+    title: "AI Showdown Hard Mode: Claude Code vs MuleSoft Vibes",
+    url: "https://prostdev.com/post/ai-showdown-hard-mode-claude-code-vs-mulesoft-vibes",
+    thumbnail: "https://prostdev.com/og/post/ai-showdown-hard-mode-claude-code-vs-mulesoft-vibes.png",
+    date: "2026-08-18T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Hard-mode rematch of AI Showdown: MuleSoft Edition. Same API-led brief, but every architect requirement is now mandatory: specs, security, secrets, error handling, MUnit, persistence, a parent POM.",
+  },
+  {
+    type: "article",
     title: "3 AIs Design API-Led Connectivity in MuleSoft: Claude vs CurieTech vs MuleSoft Vibes",
     url: "https://prostdev.com/post/ai-showdown-3-ais-design-api-led-connectivity-in-mulesoft",
     thumbnail: "https://prostdev.com/og/post/ai-showdown-3-ais-design-api-led-connectivity-in-mulesoft.png",
