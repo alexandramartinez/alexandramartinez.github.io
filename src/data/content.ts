@@ -4618,7 +4618,16 @@ export const content: ContentItem[] = [
     meta: { stars: 0, language: "" },
   },
 
-  // ProstDev Blog (145)
+  // ProstDev Blog (146)
+  {
+    type: "article",
+    title: "One idea, four products: the tech and product side of the gig economy",
+    url: "https://prostdev.com/post/gig-economy-same-idea-different-products",
+    thumbnail: "https://prostdev.com/og/post/gig-economy-same-idea-different-products.png",
+    date: "2026-08-20T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Uber, TaskRabbit, Rover, and CleaningPal all sell 'own your own time,' yet they turn that same idea into completely different products. Here's how the nature of each task reshapes the whole customer...",
+  },
   {
     type: "article",
     title: "ACB deploys your app with the local port instead of 8092? Your properties are resolved at build time",
