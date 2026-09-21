@@ -4618,7 +4618,25 @@ export const content: ContentItem[] = [
     meta: { stars: 0, language: "" },
   },
 
-  // ProstDev Blog (146)
+  // ProstDev Blog (148)
+  {
+    type: "article",
+    title: "Recap skills: catch up on any Claude session",
+    url: "https://prostdev.com/post/recap-skills-catch-up-on-any-claude-session",
+    date: "2026-09-01T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Two agent skills that catch you up when you reopen a Claude session cold: a read-only snapshot of the goal, where things stand, and what is on you next.",
+    thumbnail: "https://prostdev.com/og/post/recap-skills-catch-up-on-any-claude-session.png",
+  },
+  {
+    type: "article",
+    title: "Sound and desktop alerts for Claude Code with hooks",
+    url: "https://prostdev.com/post/sound-and-desktop-alerts-for-claude-code-with-hooks",
+    date: "2026-08-31T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Get a sound and a native macOS banner when Claude Code finishes a turn or is blocked waiting for your permission, using the settings.json hooks system.",
+    thumbnail: "https://prostdev.com/og/post/sound-and-desktop-alerts-for-claude-code-with-hooks.png",
+  },
   {
     type: "article",
     title: "One idea, four products: the tech and product side of the gig economy",
