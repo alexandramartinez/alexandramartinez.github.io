@@ -3711,7 +3711,16 @@ export const content: ContentItem[] = [
     description: "Despite the title, this book is not only for Salesforce developers. Anyone who wants to learn MuleSoft can use it to get started with the various products, plus tips along the way.",
   },
 
-  // Salesforce (12)
+  // Salesforce (13)
+  {
+    type: "article",
+    title: "Agentforce Voice for Agent Script: Voice-Enabling Best Practices",
+    url: "https://developer.salesforce.com/blogs/2026/10/agentforce-voice-for-agent-script-voice-enabling-best-practices",
+    thumbnail: "https://d259t2jj6zp7qm.cloudfront.net/images/20261001092313/SingleHeadshot-8-e1790871831604.png?w=1000",
+    date: "2026-10-01T16:55:17.000Z",
+    source: "Salesforce",
+    description: "Learn how to voice-enable an Agent Script agent with Agentforce Voice, from configuring voice settings to writing instructions that make spoken conversations clear and natural.",
+  },
   {
     type: "article",
     title: "Extending Agentforce with External MCP Tools via MuleSoft",
