@@ -4654,7 +4654,16 @@ export const content: ContentItem[] = [
     meta: { stars: 0, language: "" },
   },
 
-  // ProstDev Blog (148)
+  // ProstDev Blog (149)
+  {
+    type: "article",
+    title: "Have I Been Pwned: check if you were in a data breach",
+    url: "https://prostdev.com/post/have-i-been-pwned-check-if-you-were-in-a-data-breach",
+    date: "2026-10-07T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Use Have I Been Pwned to see if your email was in a data breach, why I skip its password check and Notify Me, plus security tips and class action settlements.",
+    thumbnail: "https://prostdev.com/og/post/have-i-been-pwned-check-if-you-were-in-a-data-breach.png",
+  },
   {
     type: "article",
     title: "Recap skills: catch up on any Claude session",
