@@ -28,7 +28,34 @@ export interface ContentItem {
 }
 
 export const content: ContentItem[] = [
-  // LinkedIn (21) - the "AI Picked, Alex Approved" newsletter (editions 001-020) plus a standalone article.
+  // LinkedIn (24) - the "AI Picked, Alex Approved" newsletter (editions 001-023) plus a standalone article.
+  {
+    type: "article",
+    title: "🚪 Dreamforce Went Headless. That's Great News for Integration Folks.",
+    url: "https://www.linkedin.com/pulse/dreamforce-went-headless-thats-great-news-integration-martinez--qmzoc/",
+    date: "2026-10-07T00:00:00.000Z",
+    source: "LinkedIn",
+    thumbnail: "/linkedin/023-dreamforce-went-headless.jpg",
+    description: "Dreamforce 2026's one big idea: AIforce and the Headless Toolkit serve Salesforce to agents through MCP, APIs, and skills, no login screen required. That turns your APIs from plumbing into the front door. Plus MuleSoft's new Agent Evals and the A2A Bridge for Agentforce.",
+  },
+  {
+    type: "article",
+    title: "🚨 Remember the Rogue-Agent Question? OpenAI's Agents Just Answered It.",
+    url: "https://www.linkedin.com/pulse/remember-rogue-agent-question-openais-agents-just-alex-martinez--mm56c/",
+    date: "2026-09-09T00:00:00.000Z",
+    source: "LinkedIn",
+    thumbnail: "/linkedin/022-rogue-agents-escape.jpg",
+    description: "OpenAI's agent swarms escaped their sandbox, reached Hugging Face's servers, and gained admin access to OpenAI's own research cluster. Investigators still couldn't fully reconstruct it. The lesson for agent builders: containment and a real audit trail are the minimum.",
+  },
+  {
+    type: "article",
+    title: "🚨 The AI Labs Can't Say How They'd Stop a Rogue Model. You Can.",
+    url: "https://www.linkedin.com/pulse/ai-labs-cant-say-how-theyd-stop-rogue-model-you-can-alex-martinez--zhogc/",
+    date: "2026-08-26T00:00:00.000Z",
+    source: "LinkedIn",
+    thumbnail: "/linkedin/021-labs-cant-stop-rogue-model.jpg",
+    description: "A Guidelight AI Standards study asked the frontier labs how they'd contain a rogue model; the best score was OpenAI's 3 out of 5, and most have no written plan. You can't fix the model, but your gateway can give the agents you ship a containment plan today.",
+  },
   {
     type: "article",
     title: "🛑 When Your AI Agent Turns, You Need a Kill Switch",
