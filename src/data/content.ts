@@ -822,6 +822,13 @@ export const content: ContentItem[] = [
   },
   {
     type: "video",
+    title: "How to Check if Your Email Was Leaked (Have I Been Pwned)",
+    url: "https://www.youtube.com/watch?v=QqrIKFAuNMs",
+    date: "2026-10-13T13:00:10.000Z",
+    source: "ProstDev",
+  },
+  {
+    type: "video",
     title: "How to Enable MuleSoft Vibes in VS Code (Agentforce, 100% Free)",
     url: "https://www.youtube.com/watch?v=s0k7z6VoDuI",
     date: "2026-07-21T11:30:25.000Z",
@@ -4654,7 +4661,25 @@ export const content: ContentItem[] = [
     meta: { stars: 0, language: "" },
   },
 
-  // ProstDev Blog (149)
+  // ProstDev Blog (151)
+  {
+    type: "article",
+    title: "Agentforce Voice: Let Callers Type Their Email Mid-Call",
+    url: "https://prostdev.com/post/agentforce-voice-agent-type-email-mid-call",
+    date: "2026-10-13T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Build an Agentforce Voice agent that texts callers a one-field form link, so they type their email instead of spelling it. Full steps, commands and fixes.",
+    thumbnail: "https://prostdev.com/og/post/agentforce-voice-agent-type-email-mid-call.png",
+  },
+  {
+    type: "article",
+    title: "4 Claude Code slash commands I use the most (and 8 more)",
+    url: "https://prostdev.com/post/claude-code-slash-commands",
+    date: "2026-10-08T00:00:00.000Z",
+    source: "ProstDev",
+    description: "Name and color your Claude Code sessions, ask side questions with /btw, and pick up old work with /resume. Plus /recap, /branch, /rewind, and a few more.",
+    thumbnail: "https://prostdev.com/og/post/claude-code-slash-commands.png",
+  },
   {
     type: "article",
     title: "Have I Been Pwned: check if you were in a data breach",
