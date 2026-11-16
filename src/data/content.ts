@@ -822,6 +822,13 @@ export const content: ContentItem[] = [
   },
   {
     type: "video",
+    title: "Turn Any Agentforce Agent into a Voice Agent (Agent Script)",
+    url: "https://www.youtube.com/watch?v=Wqe2als7sPY",
+    date: "2026-10-20T13:00:24.000Z",
+    source: "ProstDev",
+  },
+  {
+    type: "video",
     title: "How to Check if Your Email Was Leaked (Have I Been Pwned)",
     url: "https://www.youtube.com/watch?v=QqrIKFAuNMs",
     date: "2026-10-13T13:00:10.000Z",
@@ -3745,7 +3752,16 @@ export const content: ContentItem[] = [
     description: "Despite the title, this book is not only for Salesforce developers. Anyone who wants to learn MuleSoft can use it to get started with the various products, plus tips along the way.",
   },
 
-  // Salesforce (13)
+  // Salesforce (14)
+  {
+    type: "article",
+    title: "Agentforce Voice for Agent Script: Route Real Phone Calls to Your Agent",
+    url: "https://developer.salesforce.com/blogs/2026/10/agentforce-voice-for-agent-script-route-real-phone-calls-to-your-agent",
+    thumbnail: "https://d259t2jj6zp7qm.cloudfront.net/images/20261020100630/SingleHeadshot-10-e1792516002205.png?w=1000",
+    date: "2026-10-21T15:00:24.000Z",
+    source: "Salesforce",
+    description: "Learn how to configure a phone number, set up Omni-Channel routing, and verify calls with Salesforce CLI. Take your voice-enabled Agent Script agent from browser preview to real phone calls without changing your agent's logic.",
+  },
   {
     type: "article",
     title: "Agentforce Voice for Agent Script: Voice-Enabling Best Practices",
